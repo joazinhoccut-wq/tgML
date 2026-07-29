@@ -17,10 +17,10 @@ import {
 } from "lucide-react";
 
 const images = [
-  "https://via.placeholder.com/500x500?text=TG+15mg+1",
-  "https://via.placeholder.com/500x500?text=TG+15mg+2",
-  "https://via.placeholder.com/500x500?text=TG+15mg+3",
-  "https://via.placeholder.com/500x500?text=TG+15mg+4",
+  "/images/tg-8.png",
+  "/images/tg-9.png",
+  "/images/tg-10.png",
+  "/images/tg-11.png",
 ];
 
 type Review = {
