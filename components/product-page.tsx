@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+"use client";
+
 import { useState } from "react";
 import {
   Search,
   MapPin,
   ShoppingCart,
   Menu,
-  Truck,
   ShieldCheck,
   RotateCcw,
   ChevronRight,
@@ -15,27 +15,6 @@ import {
   ChevronDown,
   ThumbsUp,
 } from "lucide-react";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Tirzepatida T.G. 15mg — 4 Ampolas" },
-      {
-        name: "description",
-        content:
-          "Tirzepatida T.G. 15mg — caixa com 4 ampolas. Vendido por TGPHARMA.",
-      },
-      { property: "og:title", content: "Tirzepatida T.G. 15mg — 4 Ampolas" },
-      {
-        property: "og:description",
-        content: "Tirzepatida T.G. 15mg — caixa com 4 ampolas. Vendido por TGPHARMA.",
-      },
-      { property: "og:type", content: "product" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Index,
-});
 
 const images = [
   "https://via.placeholder.com/500x500?text=TG+15mg+1",
@@ -112,7 +91,7 @@ const reviews: Review[] = [
 const REVIEWS_PER_PAGE = 4;
 const TOTAL_REVIEW_PAGES = 6;
 
-function Index() {
+export function ProductPage() {
   const [selected, setSelected] = useState(0);
   const [reviewPage, setReviewPage] = useState(1);
   const pageReviews = reviews.slice(
