@@ -85,8 +85,17 @@ export function CheckoutPage({
       </header>
 
       <main className="mx-auto max-w-[600px] px-3 py-3">
+        {/* Banner promocional Dia dos Pais */}
+        <section className="overflow-hidden rounded-lg shadow-sm">
+          <img
+            src="/banner-dia-dos-pais.png"
+            alt="8.8 Do dia dos pais - Aproveite a oferta, até 85% OFF. Compra segura, devolução garantida e entrega rápida."
+            className="w-full object-cover"
+          />
+        </section>
+
         {/* Resumo do produto */}
-        <section className="rounded-lg bg-white p-4 shadow-sm">
+        <section className="mt-3 rounded-lg bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded border border-[#e0e0e0] bg-white">
               <img
