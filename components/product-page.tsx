@@ -1300,7 +1300,7 @@ export function ProductPage() {
                     value={cep}
                     onChange={(e) => setCep(formatCep(e.target.value))}
                     placeholder="00000-000"
-                    className="min-w-0 flex-1 rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                    className="min-w-0 flex-1 rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                   />
                   <button
                     type="button"
@@ -1337,7 +1337,7 @@ export function ProductPage() {
                         onChange={(e) =>
                           setAddr((a) => ({ ...a, logradouro: e.target.value }))
                         }
-                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                        className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                       />
                     </div>
                     <div>
@@ -1349,7 +1349,7 @@ export function ProductPage() {
                         onChange={(e) =>
                           setAddr((a) => ({ ...a, numero: e.target.value }))
                         }
-                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                        className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                       />
                     </div>
                   </div>
@@ -1363,7 +1363,7 @@ export function ProductPage() {
                       onChange={(e) =>
                         setAddr((a) => ({ ...a, complemento: e.target.value }))
                       }
-                      className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                      className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                     />
                   </div>
 
@@ -1376,7 +1376,7 @@ export function ProductPage() {
                       onChange={(e) =>
                         setAddr((a) => ({ ...a, bairro: e.target.value }))
                       }
-                      className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                      className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                     />
                   </div>
 
@@ -1390,7 +1390,7 @@ export function ProductPage() {
                         onChange={(e) =>
                           setAddr((a) => ({ ...a, cidade: e.target.value }))
                         }
-                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                        className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                       />
                     </div>
                     <div>
@@ -1406,7 +1406,7 @@ export function ProductPage() {
                             uf: e.target.value.toUpperCase(),
                           }))
                         }
-                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm uppercase outline-none focus:border-[#3483fa]"
+                        className="w-full rounded border border-[#d0d0d0] bg-white px-3 py-2 text-sm uppercase text-[#333] outline-none placeholder:text-[#999] focus:border-[#3483fa]"
                       />
                     </div>
                   </div>
