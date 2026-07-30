@@ -401,11 +401,15 @@ export function ProductPage() {
         <div className="mx-auto max-w-[1200px] px-3 pt-2 sm:px-4 sm:pt-3">
           {/* Top row: logo + search + banner */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <a href="#" aria-label="Mercado Livre" className="shrink-0">
+            <a
+              href="#"
+              aria-label="Mercado Livre"
+              className="block h-8 w-24 shrink-0 overflow-hidden sm:h-12 sm:w-36"
+            >
               <img
-                src="/mercado-livre-logo.png"
+                src="/mercado-livre-logo.webp"
                 alt="Mercado Livre"
-                className="h-8 w-auto sm:h-12"
+                className="h-full w-full scale-[1.35] object-contain"
               />
             </a>
             <form className="flex min-w-0 flex-1 items-center rounded-sm bg-white px-3 py-2 shadow-sm">
