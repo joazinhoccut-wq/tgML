@@ -403,7 +403,7 @@ export function ProductPage() {
           <div className="flex items-center gap-2 sm:gap-4">
             <a href="#" aria-label="Mercado Livre" className="shrink-0">
               <img
-                src="https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/6.6.130/mercadolibre/logo__large_plus.png"
+                src="/mercado-livre-logo.png"
                 alt="Mercado Livre"
                 className="h-8 w-auto sm:h-12"
               />
