@@ -212,6 +212,34 @@ const reviews: Review[] = [
     rating: 4,
     text: "sendo honesta: funciona MT bem mas precisa de disciplina com horario fixo e beber agua (2L por dia, vem escrito no folheto). quem seguir nao tem como dar errado. ja perdi 6kg em 4 semanas, comendo com prazer, sem ansiedade. tirei uma estrela so pq queria q viesse com lembrete no celular kkkk recomendo dms",
   },
+  {
+    avatar: "/reviews/renata.webp",
+    name: "R**a F.",
+    date: "6 junho 2026",
+    rating: 5,
+    text: "medica indicou tratamento mas o preço do importado era IMPOSSIVEL com 2 filhos na escola particular.. cheguei a chorar de raiva por nao conseguir cuidar de mim. descobri a T.G.15 num grupo do face e salvou meu tratamento literalmente. ja perdi 14kg em 2 meses. maes vcs merecem cuidar de vcs tbm, agarrem essa chance 🙏",
+  },
+  {
+    avatar: "/reviews/heitor.webp",
+    name: "H**or C.",
+    date: "5 junho 2026",
+    rating: 5,
+    text: "fome emocional ZEROU em 2 semanas cara.. como porçao normal no almoço e fico satisfeito por 5-6h, sem aquela ansiedade q me destruia. acabou o efeito sanfona de TODA dieta q ja fiz. primeira vez em 20 anos q sinto q tenho controle. se vc ta lendo esse comentario é sinal, nao deixa passar",
+  },
+  {
+    avatar: "/reviews/natalia.webp",
+    name: "N**a G.",
+    date: "4 junho 2026",
+    rating: 5,
+    text: "indiquei pra 3 amigas do trabalho e TODAS tao usando, todas emagrecendo, ninguem arrependida.. virou o assunto preferido do grupo do zap 😂 a gnt compara resultado toda semana. loja entrega no prazo, chega lacrado e gelado, atendimento responde rapido. raro achar empresa tao serio hj em dia, oportunidade UNICA",
+  },
+  {
+    avatar: "/reviews/walter.webp",
+    name: "W**er D.",
+    date: "3 junho 2026",
+    rating: 5,
+    text: "pre diabetes resolvido em 3 meses gente.. minha hemoglobina glicada saiu de 6,4 pra 5,5 no ultimo exame, meu cardio quase caiu da cadeira kkk pediu pra continuar +3 meses pra consolidar. anexei os exames na consulta. isso aqui nao é placebo nao, é medicina de vdd por um preço q cabe no bolso. é a chance de prevenir uma doença grave, nao desperdiça",
+  },
 ];
 
 const REVIEWS_PER_PAGE = 4;
