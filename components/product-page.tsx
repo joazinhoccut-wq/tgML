@@ -14,7 +14,6 @@ import {
   Star,
   ChevronDown,
   ThumbsUp,
-  Award,
   Camera,
   Globe,
   Play,
@@ -950,44 +949,53 @@ export function ProductPage() {
         </section>
 
         {/* Reputação / Certificação */}
-        <section className="mt-4 overflow-hidden rounded-lg border border-[#e0e0e0] bg-white">
-          <div className="flex items-center justify-between bg-[#00a650] px-4 py-2.5 text-white">
-            <div className="flex items-center gap-2">
-              <BadgeCheck className="h-5 w-5" />
-              <span className="text-sm font-bold uppercase tracking-wide">
-                Reputação verificada
+        <a
+          href="https://www.reclameaqui.com.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver reputação da loja no Reclame Aqui"
+          className="group mt-5 block overflow-hidden rounded-[14px] bg-white ring-1 ring-[#e4e7ec] transition hover:shadow-[0_6px_20px_rgba(22,163,74,0.12)] hover:ring-[#16a34a]/50"
+        >
+          <div className="flex items-center justify-between bg-[#16a34a] px-3 py-1.5">
+            <div className="flex items-center gap-1.5">
+              <BadgeCheck className="h-3.5 w-3.5 text-white" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white">
+                Reclame Aqui · Verificado
               </span>
             </div>
-            <span className="text-xs font-semibold uppercase opacity-90">Oficial</span>
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-white/85">
+              Oficial
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 p-4">
-            <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-full border-4 border-[#00a650] bg-[#e8f8ee] text-center">
-              <Award className="h-7 w-7 text-[#00a650]" />
-              <span className="mt-0.5 text-[10px] font-bold leading-none text-[#00a650]">
-                CERTIFICADO
-              </span>
-            </div>
-            <div>
-              <div className="text-sm font-bold text-[#00a650]">
-                T.G FARMA · CNPJ ATIVO
+          <div className="flex items-center gap-3 px-4 pb-3.5 pt-4">
+            <img
+              src="/reviews/ra1000-certificado.webp"
+              alt="Certificado RA1000 ReclameAQUI"
+              className="h-[60px] w-auto shrink-0 object-contain"
+              loading="lazy"
+            />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#16a34a]">
+                T.G Farma · CNPJ ativo
               </div>
-              <div className="mt-1 flex items-center gap-2">
-                <div className="flex text-[#ffb100]">
+              <div className="mt-1 flex items-center gap-1.5 text-[11px]">
+                <div className="flex items-center gap-[1px] text-[#f59e0b]">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
+                    <Star key={i} className="h-3 w-3 fill-current" />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-[#333]">9,4</span>
-                <span className="text-xs text-[#666]">/ 10</span>
-                <span className="rounded bg-[#e8f8ee] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#00a650]">
+                <span className="font-bold text-[#111]">9,4</span>
+                <span className="text-[#667085]">/ 10</span>
+                <span className="rounded bg-[#dcfce7] px-1.5 py-0.5 text-[9px] font-bold uppercase text-[#16a34a]">
                   Ótimo
                 </span>
               </div>
             </div>
+            <ChevronRight className="h-5 w-5 shrink-0 text-[#98a2b3]" />
           </div>
 
-          <div className="grid grid-cols-3 border-t border-[#e0e0e0] text-center">
+          <div className="grid grid-cols-3 border-t border-[#f0f0f0] text-center">
             {[
               { value: "98,7%", label: "Respondidas" },
               { value: "96,2%", label: "Solucionadas" },
@@ -995,24 +1003,24 @@ export function ProductPage() {
             ].map((stat, i) => (
               <div
                 key={i}
-                className={`py-4 ${i > 0 ? "border-l border-[#e0e0e0]" : ""}`}
+                className={`py-3 ${i > 0 ? "border-l border-[#f0f0f0]" : ""}`}
               >
-                <div className="text-lg font-bold text-[#00a650]">{stat.value}</div>
-                <div className="mt-0.5 text-[11px] uppercase text-[#666]">
+                <div className="text-base font-bold text-[#16a34a]">{stat.value}</div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-wide text-[#667085]">
                   {stat.label}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex items-center justify-between border-t border-[#e0e0e0] bg-[#fafafa] px-4 py-2 text-xs text-[#666]">
+          <div className="flex items-center justify-between border-t border-[#f0f0f0] bg-[#f9fafb] px-4 py-2 text-[11px] text-[#667085]">
             <span className="flex items-center gap-1">
-              <ShieldCheck className="h-3.5 w-3.5 text-[#00a650]" />
+              <ShieldCheck className="h-3.5 w-3.5 text-[#16a34a]" />
               Reputação auditada por terceiros
             </span>
             <span>últimos 12 meses</span>
           </div>
-        </section>
+        </a>
 
         {/* Accordion de links */}
         <section className="mt-4 overflow-hidden rounded-lg border border-[#e0e0e0] bg-white">
