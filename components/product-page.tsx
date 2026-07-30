@@ -127,6 +127,34 @@ const reviews: Review[] = [
     text: "levei a ampola pro meu endocrino conferir antes de aplicar (de tanto medo de golpe kkk).. ele olhou o lacre, leu o rotulo, conferiu a dosagem e falou: pode usar tranquilo, é serio. -8kg em 6 semanas, pressao normalizou, parei de roncar e minha esposa voltou a dormir comigo no msm quarto 😂 obrigado de coração",
     photos: ["/reviews/marcos-antes-depois.webp"],
   },
+  {
+    avatar: "/reviews/paula.webp",
+    name: "P**a L.",
+    date: "17 junho 2026",
+    rating: 5,
+    text: "eu tenho PAVOR de agulha, tremia so de pensar.. mas é subcutanea, a agulha é minuscula, eu quase nao senti juro. ja no 2 dia a fome sumiu, parei de beliscar a noite (meu pior vicio ha 15 anos). primeira vez na vida q sinto q eu controlo a comida, e nao ela.. se eu medrosa consegui, qualquer uma consegue. vai por mim",
+  },
+  {
+    avatar: "/reviews/gustavo.webp",
+    name: "G**vo A.",
+    date: "16 junho 2026",
+    rating: 5,
+    text: "ja gastei fortuna em outras marcas e nunca tive resultado tao bom qnt com a T.G.15. frasco impecavel, lacre laranja perfeito, liquido cristalino. e o melhor, por uma fraçao do q eu pagava. ta sobrando dinheiro pra viajar com as crianças no fim de ano 🥹 oportunidade q nao vai durar muito nesse preço, compra AGORA",
+  },
+  {
+    avatar: "/reviews/clara.webp",
+    name: "C**a B.",
+    date: "15 junho 2026",
+    rating: 5,
+    text: "minha compulsao por doce era doença mesmo gente.. acordava 3h da manha pra comer brigadeiro de pote escondido (q vergonha admitir isso). na PRIMEIRA semana a vontade sumiu. nao é magica, é o remedio agindo de vdd, eu pesquisei. 5,8kg em 28 dias só comendo melhor, sem dieta. to voltando a me reconhecer no espelho 🥺",
+  },
+  {
+    avatar: "/reviews/tiago.webp",
+    name: "T**o M.",
+    date: "14 junho 2026",
+    rating: 4,
+    text: "sendo sincero, tirei uma estrela pq o enjoo no 1 dia foi forte.. mas ta escrito na bula, é esperado. passou no 2 dia e nunca mais voltou. de resto, melhor investimento q fiz em mim em 10 anos. -6kg em 5 semanas, disposiçao absurda, voltei a treinar. vale CADA centavo, quem ta com medo de efeito relaxa q a empresa explica tudo direitinho",
+  },
 ];
 
 const REVIEWS_PER_PAGE = 4;
