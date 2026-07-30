@@ -1167,6 +1167,38 @@ export function ProductPage() {
           </div>
         </section>
 
+        {/* Barra de links institucionais */}
+        <section className="mt-4 border-t border-[#e0e0e0] pt-4">
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {[
+              "Trabalhe conosco",
+              "Termos e condições",
+              "Promoções",
+              "Como cuidamos da sua privacidade",
+              "Acessibilidade",
+              "Contato",
+              "Informações sobre seguros",
+              "Programa de Afiliados",
+            ].map((link, i) => (
+              <a
+                key={i}
+                href="#"
+                className="text-xs text-[#3483fa] hover:underline"
+              >
+                {link}
+              </a>
+            ))}
+          </nav>
+          <div className="mt-3 space-y-1 text-[11px] leading-relaxed text-[#999]">
+            <p>Copyright © 1999-2026. T.G Farmacêutica Brasil Ltda.</p>
+            <p>
+              CNPJ n.º 40.442.163/0001-52 / Av. Brigadeiro Faria Lima, n.º 3.477,
+              Itaim Bibi, São Paulo/SP - CEP 04538-133 - empresa do grupo T.G
+              Farma.
+            </p>
+          </div>
+        </section>
+
         {/* Rodapé de segurança */}
         <footer className="mb-8 mt-4 text-center">
           <div className="flex items-center justify-center gap-1.5 text-sm font-medium text-[#e91e63]">
