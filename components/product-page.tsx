@@ -127,6 +127,78 @@ export function ProductPage() {
   const off = combo.off;
   const installment = combo.price / 12;
 
+  // Endereço de entrega
+  const [addressOpen, setAddressOpen] = useState(false);
+  const [cep, setCep] = useState("");
+  const [cepLoading, setCepLoading] = useState(false);
+  const [cepError, setCepError] = useState("");
+  const [showManual, setShowManual] = useState(false);
+  const [addr, setAddr] = useState({
+    logradouro: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    cidade: "",
+    uf: "",
+  });
+  const [savedAddress, setSavedAddress] = useState<{
+    cidade: string;
+    uf: string;
+    cep: string;
+  } | null>(null);
+
+  function formatCep(value: string) {
+    const digits = value.replace(/\D/g, "").slice(0, 8);
+    return digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
+  }
+
+  async function handleCepLookup() {
+    const digits = cep.replace(/\D/g, "");
+    if (digits.length !== 8) {
+      setCepError("Digite um CEP válido com 8 dígitos.");
+      return;
+    }
+    setCepError("");
+    setCepLoading(true);
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      const data = await res.json();
+      if (data.erro) {
+        setShowManual(true);
+        setCepError("Não encontramos esse CEP. Preencha o endereço manualmente.");
+        setAddr((a) => ({ ...a, logradouro: "", bairro: "", cidade: "", uf: "" }));
+      } else {
+        setAddr((a) => ({
+          ...a,
+          logradouro: data.logradouro || "",
+          bairro: data.bairro || "",
+          cidade: data.localidade || "",
+          uf: data.uf || "",
+        }));
+        setShowManual(true);
+      }
+    } catch {
+      setShowManual(true);
+      setCepError("Não foi possível buscar o CEP. Preencha manualmente.");
+    } finally {
+      setCepLoading(false);
+    }
+  }
+
+  function handleSaveAddress() {
+    if (!addr.cidade || !addr.uf || !addr.logradouro || !addr.numero) {
+      setCepError("Preencha ao menos rua, número, cidade e estado.");
+      return;
+    }
+    setSavedAddress({
+      cidade: addr.cidade,
+      uf: addr.uf,
+      cep: formatCep(cep),
+    });
+    setAddressOpen(false);
+    setCepError("");
+  }
+
   return (
     <div className="min-h-screen bg-[#ebebeb] text-[#333]">
       {/* Header */}
@@ -167,13 +239,21 @@ export function ProductPage() {
 
           {/* Bottom row: location + menu + user/cart */}
           <div className="mt-2 flex items-center justify-between pb-2 text-xs text-[#333]">
-            <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setAddressOpen(true)}
+              className="flex items-center gap-1 rounded-sm text-left hover:opacity-80"
+            >
               <MapPin className="h-4 w-4" />
               <div className="leading-tight">
                 <div className="text-[#666]">Enviar para</div>
-                <div className="font-semibold">Maceió 57020670</div>
+                <div className="font-semibold">
+                  {savedAddress
+                    ? `${savedAddress.cidade} ${savedAddress.cep}`
+                    : "Informe seu CEP"}
+                </div>
               </div>
-            </div>
+            </button>
             <nav className="hidden items-center gap-5 md:flex">
               <a href="#" className="hover:text-[#3483fa]">Categorias</a>
               <a href="#" className="hover:text-[#3483fa]">Ofertas</a>
@@ -716,6 +796,171 @@ export function ProductPage() {
           </div>
         </section>
       </main>
+
+      {/* Modal de endereço */}
+      {addressOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-0 sm:items-center sm:p-4"
+          onClick={() => setAddressOpen(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-t-xl bg-white p-5 shadow-xl sm:rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-[#333]">
+                  Onde você quer receber?
+                </h2>
+                <p className="text-sm text-[#666]">
+                  Digite seu CEP para calcularmos a entrega.
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Fechar"
+                onClick={() => setAddressOpen(false)}
+                className="text-2xl leading-none text-[#999] hover:text-[#333]"
+              >
+                {"\u00D7"}
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <label className="mb-1 block text-sm font-medium text-[#333]">
+                  CEP
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    inputMode="numeric"
+                    value={cep}
+                    onChange={(e) => setCep(formatCep(e.target.value))}
+                    placeholder="00000-000"
+                    className="min-w-0 flex-1 rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCepLookup}
+                    disabled={cepLoading}
+                    className="shrink-0 rounded bg-[#3483fa] px-4 py-2 text-sm font-medium text-white hover:bg-[#2968c8] disabled:opacity-60"
+                  >
+                    {cepLoading ? "Buscando…" : "Buscar"}
+                  </button>
+                </div>
+                <a
+                  href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-block text-xs text-[#3483fa]"
+                >
+                  Não sei meu CEP
+                </a>
+              </div>
+
+              {cepError && (
+                <p className="text-sm text-[#d0021b]">{cepError}</p>
+              )}
+
+              {showManual && (
+                <div className="space-y-3 border-t pt-3">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="col-span-2">
+                      <label className="mb-1 block text-sm font-medium text-[#333]">
+                        Rua / Logradouro
+                      </label>
+                      <input
+                        value={addr.logradouro}
+                        onChange={(e) =>
+                          setAddr((a) => ({ ...a, logradouro: e.target.value }))
+                        }
+                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-[#333]">
+                        Número
+                      </label>
+                      <input
+                        value={addr.numero}
+                        onChange={(e) =>
+                          setAddr((a) => ({ ...a, numero: e.target.value }))
+                        }
+                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-[#333]">
+                      Complemento (opcional)
+                    </label>
+                    <input
+                      value={addr.complemento}
+                      onChange={(e) =>
+                        setAddr((a) => ({ ...a, complemento: e.target.value }))
+                      }
+                      className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-[#333]">
+                      Bairro
+                    </label>
+                    <input
+                      value={addr.bairro}
+                      onChange={(e) =>
+                        setAddr((a) => ({ ...a, bairro: e.target.value }))
+                      }
+                      className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="col-span-2">
+                      <label className="mb-1 block text-sm font-medium text-[#333]">
+                        Cidade
+                      </label>
+                      <input
+                        value={addr.cidade}
+                        onChange={(e) =>
+                          setAddr((a) => ({ ...a, cidade: e.target.value }))
+                        }
+                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm outline-none focus:border-[#3483fa]"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-[#333]">
+                        Estado
+                      </label>
+                      <input
+                        value={addr.uf}
+                        maxLength={2}
+                        onChange={(e) =>
+                          setAddr((a) => ({
+                            ...a,
+                            uf: e.target.value.toUpperCase(),
+                          }))
+                        }
+                        className="w-full rounded border border-[#d0d0d0] px-3 py-2 text-sm uppercase outline-none focus:border-[#3483fa]"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveAddress}
+                    className="w-full rounded bg-[#3483fa] py-2.5 text-sm font-medium text-white hover:bg-[#2968c8]"
+                  >
+                    Usar este endereço
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
