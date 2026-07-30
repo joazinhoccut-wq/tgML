@@ -1097,7 +1097,7 @@ export function ProductPage() {
         {/* App + info da empresa */}
         <section className="mt-4 rounded-lg border border-[#e0e0e0] bg-white p-4">
           <div className="text-xs font-bold uppercase tracking-wide text-[#666]">
-            Baixe o app T.G Farma
+            Baixe o app do Mercado Livre
           </div>
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {[
@@ -1197,7 +1197,7 @@ export function ProductPage() {
             Conexão segura · SSL 256-bit · Dados criptografados
           </div>
           <div className="mt-2 text-xs text-[#999]">
-            © 2026 T.G Farmacêutica · Todos os direitos reservados
+            © 1999-2026 Mercado Livre · Todos os direitos reservados
           </div>
         </footer>
       </main>
