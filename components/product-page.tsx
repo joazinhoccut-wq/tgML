@@ -14,6 +14,14 @@ import {
   Star,
   ChevronDown,
   ThumbsUp,
+  Award,
+  Camera,
+  Globe,
+  Play,
+  Mail,
+  Lock,
+  Smartphone,
+  BadgeCheck,
 } from "lucide-react";
 
 const images = [
@@ -253,6 +261,7 @@ export function ProductPage() {
     reviewPage * REVIEWS_PER_PAGE,
   );
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFooter, setOpenFooter] = useState<number | null>(null);
   const [comboId, setComboId] = useState(4);
   const combo = combos.find((c) => c.id === comboId) ?? combos[0];
   const off = combo.off;
@@ -939,6 +948,214 @@ export function ProductPage() {
             </button>
           </div>
         </section>
+
+        {/* Reputação / Certificação */}
+        <section className="mt-4 overflow-hidden rounded-lg border border-[#e0e0e0] bg-white">
+          <div className="flex items-center justify-between bg-[#00a650] px-4 py-2.5 text-white">
+            <div className="flex items-center gap-2">
+              <BadgeCheck className="h-5 w-5" />
+              <span className="text-sm font-bold uppercase tracking-wide">
+                Reputação verificada
+              </span>
+            </div>
+            <span className="text-xs font-semibold uppercase opacity-90">Oficial</span>
+          </div>
+
+          <div className="flex items-center gap-4 p-4">
+            <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-full border-4 border-[#00a650] bg-[#e8f8ee] text-center">
+              <Award className="h-7 w-7 text-[#00a650]" />
+              <span className="mt-0.5 text-[10px] font-bold leading-none text-[#00a650]">
+                CERTIFICADO
+              </span>
+            </div>
+            <div>
+              <div className="text-sm font-bold text-[#00a650]">
+                T.G FARMA · CNPJ ATIVO
+              </div>
+              <div className="mt-1 flex items-center gap-2">
+                <div className="flex text-[#ffb100]">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+                <span className="text-sm font-bold text-[#333]">9,4</span>
+                <span className="text-xs text-[#666]">/ 10</span>
+                <span className="rounded bg-[#e8f8ee] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#00a650]">
+                  Ótimo
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 border-t border-[#e0e0e0] text-center">
+            {[
+              { value: "98,7%", label: "Respondidas" },
+              { value: "96,2%", label: "Solucionadas" },
+              { value: "92%", label: "Voltariam a comprar" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className={`py-4 ${i > 0 ? "border-l border-[#e0e0e0]" : ""}`}
+              >
+                <div className="text-lg font-bold text-[#00a650]">{stat.value}</div>
+                <div className="mt-0.5 text-[11px] uppercase text-[#666]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between border-t border-[#e0e0e0] bg-[#fafafa] px-4 py-2 text-xs text-[#666]">
+            <span className="flex items-center gap-1">
+              <ShieldCheck className="h-3.5 w-3.5 text-[#00a650]" />
+              Reputação auditada por terceiros
+            </span>
+            <span>últimos 12 meses</span>
+          </div>
+        </section>
+
+        {/* Accordion de links */}
+        <section className="mt-4 overflow-hidden rounded-lg border border-[#e0e0e0] bg-white">
+          {[
+            {
+              title: "Comece a comprar",
+              items: ["Como comprar", "Meios de pagamento", "Frete e prazos", "Rastrear pedido"],
+            },
+            {
+              title: "Suporte ao cliente",
+              items: ["Central de ajuda", "Fale conosco", "Trocas e devoluções", "Dúvidas frequentes"],
+            },
+            {
+              title: "Sobre a TGFarmacêutica",
+              items: ["Quem somos", "Certificações", "Nossa fábrica", "Trabalhe conosco"],
+            },
+            {
+              title: "Política e termos",
+              items: ["Termos de uso", "Política de privacidade", "Política de cookies", "Segurança"],
+            },
+          ].map((section, i) => (
+            <div key={i} className={i > 0 ? "border-t border-[#e0e0e0]" : ""}>
+              <button
+                type="button"
+                onClick={() => setOpenFooter(openFooter === i ? null : i)}
+                className="flex w-full items-center justify-between px-4 py-3.5 text-left text-sm font-semibold text-[#333] hover:bg-[#fafafa]"
+              >
+                {section.title}
+                <ChevronDown
+                  className={`h-4 w-4 text-[#999] transition-transform ${
+                    openFooter === i ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {openFooter === i && (
+                <ul className="space-y-2 px-4 pb-4">
+                  {section.items.map((item, j) => (
+                    <li key={j}>
+                      <a href="#" className="text-sm text-[#3483fa] hover:underline">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </section>
+
+        {/* Redes sociais */}
+        <section className="mt-4 rounded-lg border border-[#e0e0e0] bg-white p-4">
+          <div className="text-xs font-bold uppercase tracking-wide text-[#666]">
+            Siga a gente
+          </div>
+          <div className="mt-3 flex gap-3">
+            {[
+              { icon: Camera, label: "Instagram" },
+              { icon: Globe, label: "Facebook" },
+              { icon: Play, label: "YouTube" },
+              { icon: Mail, label: "E-mail" },
+            ].map((social, i) => (
+              <a
+                key={i}
+                href="#"
+                aria-label={social.label}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d0d0d0] text-[#333] transition hover:border-[#3483fa] hover:text-[#3483fa]"
+              >
+                <social.icon className="h-5 w-5" />
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* App + info da empresa */}
+        <section className="mt-4 rounded-lg border border-[#e0e0e0] bg-white p-4">
+          <div className="text-xs font-bold uppercase tracking-wide text-[#666]">
+            Baixe o app T.G Farma
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {[
+              { top: "Disponível no", bottom: "Google Play" },
+              { top: "Baixar na", bottom: "App Store" },
+            ].map((store, i) => (
+              <a
+                key={i}
+                href="#"
+                className="flex items-center gap-3 rounded-lg bg-[#333] px-4 py-2.5 text-white transition hover:bg-[#000]"
+              >
+                <Smartphone className="h-6 w-6" />
+                <div className="leading-tight">
+                  <div className="text-[10px] uppercase opacity-80">{store.top}</div>
+                  <div className="text-base font-semibold">{store.bottom}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-lg border border-[#e0e0e0]">
+            <div className="flex items-center gap-3 border-b border-[#e0e0e0] p-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#333] text-white">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1 text-base font-semibold text-[#333]">
+                  T.G Farma
+                  <BadgeCheck className="h-4 w-4 text-[#3483fa]" />
+                </div>
+                <div className="text-xs text-[#666]">
+                  Operador oficial · Vendedor verificado
+                </div>
+              </div>
+            </div>
+            <dl className="divide-y divide-[#f0f0f0] text-sm">
+              {[
+                { term: "Razão social", desc: "T.G Farmacêutica Ltda." },
+                { term: "CNPJ", desc: "40.442.163/0001-52" },
+                {
+                  term: "Sede",
+                  desc: "Av. Brigadeiro Faria Lima, 3477 · 15º andar · Itaim Bibi · São Paulo/SP · 04538-133",
+                },
+                { term: "Atendimento", desc: "suporte@tgfarma.com.br · 24h" },
+              ].map((row, i) => (
+                <div key={i} className="grid grid-cols-3 gap-2 p-3">
+                  <dt className="text-xs font-semibold uppercase text-[#999]">
+                    {row.term}
+                  </dt>
+                  <dd className="col-span-2 text-[#333]">{row.desc}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* Rodapé de segurança */}
+        <footer className="mb-8 mt-4 text-center">
+          <div className="flex items-center justify-center gap-1.5 text-sm font-medium text-[#e91e63]">
+            <Lock className="h-4 w-4" />
+            Conexão segura · SSL 256-bit · Dados criptografados
+          </div>
+          <div className="mt-2 text-xs text-[#999]">
+            © 2026 T.G Farmacêutica · Todos os direitos reservados
+          </div>
+        </footer>
       </main>
 
       {/* Modal de endereço */}
