@@ -18,7 +18,6 @@ import {
   Globe,
   Play,
   Mail,
-  Lock,
   Smartphone,
   BadgeCheck,
 } from "lucide-react";
@@ -1181,24 +1180,21 @@ export function ProductPage() {
             ))}
           </nav>
           <div className="mt-3 space-y-1 text-[11px] leading-relaxed text-[#999]">
-            <p>Copyright © 1999-2026. T.G Farmacêutica Brasil Ltda.</p>
+            <p>Copyright © 1999-2026. Mercado Livre Brasil Ltda.</p>
             <p>
-              CNPJ n.º 40.442.163/0001-52 / Av. Brigadeiro Faria Lima, n.º 3.477,
-              Itaim Bibi, São Paulo/SP - CEP 04538-133 - empresa do grupo T.G
-              Farma.
+              CNPJ n.º 03.007.331/0001-41 / Av. das Nações Unidas, nº 3.003,
+              Bonfim, Osasco/SP - CEP 06233-903 - empresa do grupo Mercado Livre.
             </p>
           </div>
         </section>
 
-        {/* Rodapé de segurança */}
-        <footer className="mb-8 mt-4 text-center">
-          <div className="flex items-center justify-center gap-1.5 text-sm font-medium text-[#e91e63]">
-            <Lock className="h-4 w-4" />
-            Conexão segura · SSL 256-bit · Dados criptografados
-          </div>
-          <div className="mt-2 text-xs text-[#999]">
-            © 1999-2026 Mercado Livre · Todos os direitos reservados
-          </div>
+        {/* Rodapé */}
+        <footer className="mb-8 mt-4">
+          <p className="text-[11px] leading-relaxed text-[#999]">
+            Ao navegar neste site, você aceita os cookies que usamos para
+            melhorar sua experiência. Compra 100% segura. Seus dados de pagamento
+            são protegidos e criptografados.
+          </p>
         </footer>
       </main>
 
