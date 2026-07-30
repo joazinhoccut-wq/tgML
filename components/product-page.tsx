@@ -121,7 +121,6 @@ export function ProductPage() {
     (reviewPage - 1) * REVIEWS_PER_PAGE,
     reviewPage * REVIEWS_PER_PAGE,
   );
-  const [qty, setQty] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [comboId, setComboId] = useState(4);
   const combo = combos.find((c) => c.id === comboId) ?? combos[0];
@@ -377,23 +376,6 @@ export function ProductPage() {
                     full
                   </span>
                 </div>
-              </div>
-
-              {/* Quantity */}
-              <div className="flex items-center gap-2 text-sm">
-                <span className="font-semibold">Quantidade:</span>
-                <select
-                  value={qty}
-                  onChange={(e) => setQty(Number(e.target.value))}
-                  className="rounded border border-[#e0e0e0] px-2 py-1"
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>
-                      {n} unidade{n > 1 ? "s" : ""}
-                    </option>
-                  ))}
-                </select>
-                <span className="text-xs text-[#666]">(+50 disponíveis)</span>
               </div>
 
               {/* Actions */}
