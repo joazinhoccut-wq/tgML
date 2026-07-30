@@ -51,39 +51,49 @@ type Review = {
   name: string;
   date: string;
   text: string;
-  video?: { src: string; duration: string };
+  videos?: string[];
   photos?: string[];
   rating?: number;
 };
 
 const reviews: Review[] = [
   {
-    avatar: "https://via.placeholder.com/40x40?text=R",
+    avatar: "/reviews/rafael.webp",
     name: "R**el M.",
     date: "24 junho 2026",
+    rating: 5,
     text: "gente sou farmaceutico ha 12 anos e comprei MORRENDO de medo de ser falsificado kkk peguei a luz uv do laboratorio onde trabalho, mirei no rotulo e o holograma da T.G apareceu certinho.. ai relaxei. é produto original msm, lacre intacto, dosagem batendo. quem ta com medo igual eu tava, pode confiar. nao deixa passar essa, ta um precinho que daqui a pouco sobe 💙",
-    photos: ["https://via.placeholder.com/300x300?text=Hologram+Check"],
+    videos: ["/reviews/rafael-uv-video.mp4"],
+    photos: ["/reviews/uv-holograma.webp"],
   },
   {
-    avatar: "https://via.placeholder.com/40x40?text=J",
+    avatar: "/reviews/julia.webp",
     name: "J**a P.",
     date: "24 junho 2026",
+    rating: 5,
     text: "chorei qnd abri a caixa juro pra vcs. 4 anos lutando contra a balança, ja tinha tentado de tudo e nada.. qnd vi a caixinha chegar lacrada, isopor geladinho, as 4 ampolas com o lacre laranja, dosagem 15mg/0,5ml igualzinho prometido eu ja sabia q ia dar certo. e deu, -9kg em 6 semanas 😭 to mt feliz, vlw demais T.G ❤️ corre que ta acabando",
-    photos: ["https://via.placeholder.com/300x300?text=Kit+Review"],
+    videos: ["/reviews/julia-video.mp4"],
+    photos: ["/reviews/julia-kit.png"],
   },
   {
-    avatar: "https://via.placeholder.com/40x40?text=C",
+    avatar: "/reviews/carlos.webp",
     name: "C**os E.",
     date: "24 junho 2026",
+    rating: 5,
     text: "filmei a abertura pq tava com o pé atras, da pra ver nas fotos.. caixa termica lacrada com gelo, qr code dentro com as instrucao, 4 ampolas perfeitas, lacre laranja sem mexer, temperatura certinha entre 2 e 8 graus como falaram. cara é coisa serio msm, ja to na 2 compra e indiquei pra minha irma. quem ainda ta pensando para de pensar pq esse preço NAO vai voltar",
-    photos: ["https://via.placeholder.com/300x300?text=QR+Code"],
+    photos: [
+      "/reviews/carlos-qr-isopor.png",
+      "/reviews/carlos-caixa-aberta.png",
+      "/reviews/carlos-4ampolas-topo.png",
+    ],
   },
   {
-    avatar: "https://via.placeholder.com/40x40?text=A",
+    avatar: "/reviews/ana.webp",
     name: "A**a C.",
     date: "20 junho 2026",
+    rating: 5,
     text: "gastei uma fortuna em tratamento importado, tava me sufocando.. cheguei a chorar no caixa da farmacia de raiva. qnd descobri a T.G.15 achei q era golpe de tao barato pra ser verdade. comprei TREMENDO, recebi lacrado, apliquei, e olha o resultado: -27kg em 3 meses (fotos ai embaixo) 🙌 me devolveu minha autoestima.. nao perde essa nao, é raro de achar",
-    photos: ["https://via.placeholder.com/300x300?text=Before+After"],
+    photos: ["/reviews/ana-antes-depois.webp"],
   },
   {
     avatar: "https://via.placeholder.com/40x40?text=T",
@@ -753,10 +763,25 @@ export function ProductPage() {
                       )}
                     </div>
                     <p className="mt-2 text-[#333]">{review.text}</p>
-                    {review.photos && (
-                      <div className="mt-2 flex gap-2">
-                        {review.photos.map((p, j) => (
-                          <img key={j} src={p} alt={`Foto ${j + 1}`} className="h-20 w-20 rounded border object-cover" />
+                    {(review.videos || review.photos) && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {review.videos?.map((v, j) => (
+                          <video
+                            key={`v-${j}`}
+                            src={v}
+                            controls
+                            playsInline
+                            preload="metadata"
+                            className="h-28 w-28 rounded border border-[#e0e0e0] bg-black object-cover"
+                          />
+                        ))}
+                        {review.photos?.map((p, j) => (
+                          <img
+                            key={`p-${j}`}
+                            src={p || "/placeholder.svg"}
+                            alt={`Foto ${j + 1} da avaliação de ${review.name}`}
+                            className="h-28 w-28 rounded border border-[#e0e0e0] object-cover"
+                          />
                         ))}
                       </div>
                     )}
