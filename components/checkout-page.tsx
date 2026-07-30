@@ -58,10 +58,6 @@ export function CheckoutPage({
   onBack: () => void;
   onEditAddress: () => void;
 }) {
-  const [delivery, setDelivery] = useState<"frete" | "retirada">("frete");
-  const [deliveryOption, setDeliveryOption] = useState<"rapido" | "escolher">(
-    "rapido",
-  );
 
   const productValue = combo.original;
   const discount = combo.original - combo.price;
@@ -108,36 +104,6 @@ export function CheckoutPage({
         {/* Forma de entrega */}
         <section className="mt-3 rounded-lg bg-white p-4 shadow-sm">
           <h2 className="text-lg font-semibold text-[#333]">Forma de entrega</h2>
-          <div className="mt-3 grid grid-cols-2 gap-0 overflow-hidden rounded-lg bg-[#f0f0f0] p-1">
-            <button
-              type="button"
-              onClick={() => setDelivery("frete")}
-              className={`rounded-md py-2 text-center text-sm font-semibold transition ${
-                delivery === "frete"
-                  ? "bg-white text-[#333] shadow-sm ring-1 ring-[#3483fa]"
-                  : "text-[#666]"
-              }`}
-            >
-              Frete
-              <span className="block text-xs font-normal text-[#00a650]">
-                Grátis
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setDelivery("retirada")}
-              className={`rounded-md py-2 text-center text-sm font-semibold transition ${
-                delivery === "retirada"
-                  ? "bg-white text-[#333] shadow-sm ring-1 ring-[#3483fa]"
-                  : "text-[#666]"
-              }`}
-            >
-              Retirada
-              <span className="block text-xs font-normal text-[#00a650]">
-                Grátis
-              </span>
-            </button>
-          </div>
 
           {/* Card de endereço */}
           <button
@@ -192,8 +158,8 @@ export function CheckoutPage({
                   <input
                     type="radio"
                     name="entrega"
-                    checked={deliveryOption === "rapido"}
-                    onChange={() => setDeliveryOption("rapido")}
+                    checked
+                    readOnly
                     className="mt-0.5 h-4 w-4 accent-[#3483fa]"
                   />
                   <span className="text-sm">
@@ -210,32 +176,6 @@ export function CheckoutPage({
                   <span className="font-semibold text-[#00a650]">Grátis</span>
                 </span>
               </label>
-              <label className="flex cursor-pointer items-start justify-between gap-2">
-                <div className="flex items-start gap-2">
-                  <input
-                    type="radio"
-                    name="entrega"
-                    checked={deliveryOption === "escolher"}
-                    onChange={() => setDeliveryOption("escolher")}
-                    className="mt-0.5 h-4 w-4 accent-[#3483fa]"
-                  />
-                  <span className="text-sm text-[#333]">
-                    No dia que você preferir
-                  </span>
-                </div>
-                <span className="whitespace-nowrap text-sm">
-                  <span className="text-[#999] line-through">
-                    R$ {formatBRL(freteOriginal)}
-                  </span>{" "}
-                  <span className="font-semibold text-[#00a650]">Grátis</span>
-                </span>
-              </label>
-              <button
-                type="button"
-                className="pl-6 text-sm font-medium text-[#3483fa]"
-              >
-                Conferir dias disponíveis
-              </button>
             </div>
           </div>
         </section>
