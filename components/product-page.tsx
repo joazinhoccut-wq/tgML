@@ -282,11 +282,9 @@ export function ProductPage() {
 
       {/* Breadcrumb */}
       <div className="mx-auto max-w-[1200px] px-4 py-3 text-xs text-[#3483fa]">
-        <span>Casa, Móveis e Decoração</span>
+        <span>Saúde</span>
         <ChevronRight className="mx-1 inline h-3 w-3 text-[#999]" />
-        <span>Banheiros</span>
-        <ChevronRight className="mx-1 inline h-3 w-3 text-[#999]" />
-        <span className="text-[#666]">Cubas</span>
+        <span className="text-[#666]">Emagrecedores</span>
       </div>
 
       {/* Main product */}
