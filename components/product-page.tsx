@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CheckoutPage, PreparingScreen } from "./checkout-page";
 import {
   Search,
   MapPin,
@@ -265,6 +266,17 @@ export function ProductPage() {
   const off = combo.off;
   const installment = combo.price / 12;
 
+  // Fluxo de checkout
+  const [view, setView] = useState<"product" | "loading" | "checkout">(
+    "product",
+  );
+
+  function handleBuyNow() {
+    setView("loading");
+    window.scrollTo({ top: 0 });
+    setTimeout(() => setView("checkout"), 2600);
+  }
+
   // Endereço de entrega
   const [addressOpen, setAddressOpen] = useState(false);
   const [cep, setCep] = useState("");
@@ -280,6 +292,10 @@ export function ProductPage() {
     uf: "",
   });
   const [savedAddress, setSavedAddress] = useState<{
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
     cidade: string;
     uf: string;
     cep: string;
@@ -329,6 +345,10 @@ export function ProductPage() {
       return;
     }
     setSavedAddress({
+      logradouro: addr.logradouro,
+      numero: addr.numero,
+      complemento: addr.complemento,
+      bairro: addr.bairro,
       cidade: addr.cidade,
       uf: addr.uf,
       cep: formatCep(cep),
@@ -337,8 +357,22 @@ export function ProductPage() {
     setCepError("");
   }
 
+  if (view === "loading") {
+    return <PreparingScreen />;
+  }
+
   return (
-    <div className="min-h-screen bg-[#ebebeb] text-[#333]">
+    <>
+      {view === "checkout" ? (
+        <CheckoutPage
+          combo={combo}
+          productName="Tirzepatida T.G. 15mg"
+          savedAddress={savedAddress}
+          onBack={() => setView("product")}
+          onEditAddress={() => setAddressOpen(true)}
+        />
+      ) : (
+        <div className="min-h-screen bg-[#ebebeb] text-[#333]">
       {/* Header */}
       <header className="bg-[#FFE600]">
         <div className="mx-auto max-w-[1200px] px-3 pt-2 sm:px-4 sm:pt-3">
@@ -596,7 +630,10 @@ export function ProductPage() {
 
               {/* Actions */}
               <div className="space-y-2">
-                <button className="w-full rounded bg-[#3483fa] py-3 text-sm font-semibold text-white hover:bg-[#2968c8]">
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full rounded bg-[#3483fa] py-3 text-sm font-semibold text-white hover:bg-[#2968c8]"
+                >
                   Comprar agora
                 </button>
                 <button className="flex w-full items-center justify-center gap-2 rounded bg-[#e3edfb] py-3 text-sm font-semibold text-[#3483fa] hover:bg-[#d0e0f7]">
@@ -1197,6 +1234,8 @@ export function ProductPage() {
           </p>
         </footer>
       </main>
+        </div>
+      )}
 
       {/* Modal de endereço */}
       {addressOpen && (
@@ -1362,6 +1401,6 @@ export function ProductPage() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
