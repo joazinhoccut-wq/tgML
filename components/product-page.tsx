@@ -155,6 +155,28 @@ const reviews: Review[] = [
     rating: 4,
     text: "sendo sincero, tirei uma estrela pq o enjoo no 1 dia foi forte.. mas ta escrito na bula, é esperado. passou no 2 dia e nunca mais voltou. de resto, melhor investimento q fiz em mim em 10 anos. -6kg em 5 semanas, disposiçao absurda, voltei a treinar. vale CADA centavo, quem ta com medo de efeito relaxa q a empresa explica tudo direitinho",
   },
+  {
+    avatar: "/reviews/bruna.webp",
+    name: "B**a R.",
+    date: "13 junho 2026",
+    rating: 5,
+    text: "liguei no sac com umas 10 duvidas e fui atendida em menos de 2 min, gente. a moça paciente d+++ tirou TUDO: horario ideal, rodizio do local, o q fazer se faltar luz na geladeira.. empresa serio nao tem medo de atender, isso nao é loja fantasma nao. pode comprar tranquila q vc ta em boas maos",
+  },
+  {
+    avatar: "/reviews/ana.webp",
+    name: "A**a C.",
+    date: "12 junho 2026",
+    rating: 5,
+    text: "minha terceira compra ja, recomendo de olho fechado!! comprei a primeira morrendo de medo de ser golpe, q nada.. chega lacrado, geladinho, com nota fiscal. -27kg em 3 meses (fotos ai 🙌) mudou minha vida. corre antes do preço subir gente, é raro de achar oportunidade assim",
+    photos: ["/reviews/ana-antes-depois.webp"],
+  },
+  {
+    avatar: "/reviews/diego.webp",
+    name: "D**o S.",
+    date: "11 junho 2026",
+    rating: 5,
+    text: "diabetico tipo 2 ha 9 anos, tomava 4 remedio por dia e a glicemia nao baixava nunca.. em 5 semanas a jejum caiu de 180 pra 110 SEM hipoglicemia. meu endocrino ficou impressionado e pediu pra continuar +6 meses. gente isso mudou minha vida, eu achava q ia perder o pé um dia 😢 se vc é diabetico nao perde essa, pode ser sua virada tbm",
+  },
 ];
 
 const REVIEWS_PER_PAGE = 4;
