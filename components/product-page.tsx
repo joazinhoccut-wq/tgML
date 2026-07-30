@@ -216,7 +216,7 @@ export function ProductPage() {
             <form className="flex min-w-0 flex-1 items-center rounded-sm bg-white px-3 py-2 shadow-sm">
               <input
                 type="text"
-                defaultValue="cuba de apoio"
+                defaultValue="Tizerpatida 15mg"
                 placeholder="Buscar…"
                 className="min-w-0 flex-1 text-sm outline-none"
               />
