@@ -28,14 +28,15 @@ type Combo = {
   label: string;
   price: number;
   original: number;
+  off: number;
   image: string;
   best?: boolean;
 };
 
 const combos: Combo[] = [
-  { id: 1, label: "1 Ampola", price: 97, original: 134, image: "/images/tg-11.png" },
-  { id: 2, label: "2 Ampolas", price: 147, original: 204, image: "/images/tg-9.png" },
-  { id: 4, label: "4 Ampolas", price: 197, original: 270, image: "/images/tg-8.png", best: true },
+  { id: 1, label: "1 Ampola", price: 97, original: 397, off: 75, image: "/images/tg-11.png" },
+  { id: 2, label: "2 Ampolas", price: 147, original: 797, off: 82, image: "/images/tg-9.png" },
+  { id: 4, label: "4 Ampolas", price: 197, original: 1197, off: 84, image: "/images/tg-8.png", best: true },
 ];
 
 function formatBRL(value: number) {
@@ -124,7 +125,7 @@ export function ProductPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [comboId, setComboId] = useState(4);
   const combo = combos.find((c) => c.id === comboId) ?? combos[0];
-  const off = Math.round((1 - combo.price / combo.original) * 100);
+  const off = combo.off;
   const installment = combo.price / 12;
 
   return (
