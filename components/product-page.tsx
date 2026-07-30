@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckoutPage, PreparingScreen } from "./checkout-page";
+import { PixPaymentFlow } from "./pix-payment-flow";
 import {
   Search,
   MapPin,
@@ -267,9 +268,9 @@ export function ProductPage() {
   const installment = combo.price / 12;
 
   // Fluxo de checkout
-  const [view, setView] = useState<"product" | "loading" | "checkout">(
-    "product",
-  );
+  const [view, setView] = useState<
+    "product" | "loading" | "checkout" | "payment"
+  >("product");
 
   function handleBuyNow() {
     setView("loading");
@@ -361,6 +362,16 @@ export function ProductPage() {
     return <PreparingScreen />;
   }
 
+  if (view === "payment") {
+    return (
+      <PixPaymentFlow
+        amount={combo.price}
+        productName={`Tirzepatida T.G. 15mg — ${combo.label}`}
+        onBack={() => setView("checkout")}
+      />
+    );
+  }
+
   return (
     <>
       {view === "checkout" ? (
@@ -370,6 +381,10 @@ export function ProductPage() {
           savedAddress={savedAddress}
           onBack={() => setView("product")}
           onEditAddress={() => setAddressOpen(true)}
+          onPay={() => {
+            window.scrollTo({ top: 0 });
+            setView("payment");
+          }}
         />
       ) : (
         <div className="min-h-screen bg-[#ebebeb] text-[#333]">
