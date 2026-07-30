@@ -271,6 +271,12 @@ export function ProductPage() {
   const [view, setView] = useState<
     "product" | "loading" | "checkout" | "payment"
   >("product");
+  const [customer, setCustomer] = useState<{
+    name: string;
+    email: string;
+    document: string;
+    phone: string;
+  } | null>(null);
 
   function handleBuyNow() {
     setView("loading");
@@ -367,6 +373,7 @@ export function ProductPage() {
       <PixPaymentFlow
         amount={combo.price}
         productName={`Tirzepatida T.G. 15mg — ${combo.label}`}
+        customer={customer ?? undefined}
         onBack={() => setView("checkout")}
       />
     );
@@ -381,7 +388,8 @@ export function ProductPage() {
           savedAddress={savedAddress}
           onBack={() => setView("product")}
           onEditAddress={() => setAddressOpen(true)}
-          onPay={() => {
+          onPay={(c) => {
+            setCustomer(c);
             window.scrollTo({ top: 0 });
             setView("payment");
           }}

@@ -23,11 +23,42 @@ type SavedAddress = {
   cep: string;
 } | null;
 
+type Customer = {
+  name: string;
+  email: string;
+  document: string;
+  phone: string;
+};
+
 function formatBRL(value: number) {
   return value.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+}
+
+function maskCpf(value: string) {
+  const d = value.replace(/\D/g, "").slice(0, 11);
+  return d
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+}
+
+function maskPhone(value: string) {
+  const d = value.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 10) {
+    return d
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{4})(\d{1,4})$/, "$1-$2");
+  }
+  return d
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+}
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 export function PreparingScreen() {
@@ -58,14 +89,37 @@ export function CheckoutPage({
   savedAddress: SavedAddress;
   onBack: () => void;
   onEditAddress: () => void;
-  onPay: () => void;
+  onPay: (customer: Customer) => void;
 }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [document, setDocument] = useState("");
+  const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const productValue = combo.original;
   const discount = combo.original - combo.price;
   const freteOriginal = 34.9;
   const total = combo.price;
   const pixSave = Math.round(combo.price * 0.06 * 100) / 100;
+
+  function handlePay() {
+    const next: Record<string, string> = {};
+    if (name.trim().split(" ").filter(Boolean).length < 2)
+      next.name = "Informe seu nome completo.";
+    if (document.replace(/\D/g, "").length !== 11) next.document = "CPF inválido.";
+    if (!isValidEmail(email)) next.email = "Informe um e-mail válido.";
+    if (phone.replace(/\D/g, "").length < 10) next.phone = "Telefone inválido.";
+    setErrors(next);
+    if (Object.keys(next).length > 0) {
+      const firstError = window.document.querySelector(
+        "[data-checkout-error='true']",
+      );
+      firstError?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    onPay({ name: name.trim(), email: email.trim(), document, phone });
+  }
 
   return (
     <div className="min-h-screen bg-[#ebebeb] pb-28 text-[#333]">
@@ -189,6 +243,65 @@ export function CheckoutPage({
               </label>
             </div>
           </div>
+
+          {/* Dados do destinatário / pagador */}
+          <div className="mt-5 border-t border-[#e0e0e0] pt-4">
+            <h3 className="text-sm font-semibold text-[#333]">
+              Dados do destinatário
+            </h3>
+            <p className="mt-0.5 text-xs text-[#666]">
+              Usaremos esses dados para gerar seu pagamento via Pix.
+            </p>
+
+            <div className="mt-3 space-y-3">
+              <CheckoutField label="Nome completo" error={errors.name}>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Como no seu documento"
+                  autoComplete="name"
+                  className="w-full rounded-md border border-[#d0d0d0] px-3 py-2.5 text-sm text-[#333] outline-none focus:border-[#3483fa]"
+                />
+              </CheckoutField>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <CheckoutField label="CPF" error={errors.document}>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={document}
+                    onChange={(e) => setDocument(maskCpf(e.target.value))}
+                    placeholder="000.000.000-00"
+                    className="w-full rounded-md border border-[#d0d0d0] px-3 py-2.5 text-sm text-[#333] outline-none focus:border-[#3483fa]"
+                  />
+                </CheckoutField>
+
+                <CheckoutField label="Telefone com DDD" error={errors.phone}>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    value={phone}
+                    onChange={(e) => setPhone(maskPhone(e.target.value))}
+                    placeholder="(11) 99999-9999"
+                    autoComplete="tel"
+                    className="w-full rounded-md border border-[#d0d0d0] px-3 py-2.5 text-sm text-[#333] outline-none focus:border-[#3483fa]"
+                  />
+                </CheckoutField>
+              </div>
+
+              <CheckoutField label="E-mail" error={errors.email}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seu@email.com"
+                  autoComplete="email"
+                  className="w-full rounded-md border border-[#d0d0d0] px-3 py-2.5 text-sm text-[#333] outline-none focus:border-[#3483fa]"
+                />
+              </CheckoutField>
+            </div>
+          </div>
         </section>
 
         {/* Meios de pagamento */}
@@ -289,13 +402,33 @@ export function CheckoutPage({
           </div>
           <button
             type="button"
-            onClick={onPay}
+            onClick={handlePay}
             className="shrink-0 rounded-md bg-[#3483fa] px-8 py-3 text-sm font-semibold text-white hover:bg-[#2968c8]"
           >
             Pagar e finalizar
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function CheckoutField({
+  label,
+  error,
+  children,
+}: {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div data-checkout-error={error ? "true" : undefined}>
+      <label className="mb-1 block text-sm font-medium text-[#333]">
+        {label}
+      </label>
+      {children}
+      {error ? <p className="mt-1 text-xs text-[#e6394a]">{error}</p> : null}
     </div>
   );
 }

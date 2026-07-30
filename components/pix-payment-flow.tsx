@@ -364,15 +364,18 @@ export function PixPaymentFlow({
   amount,
   productName,
   onBack,
+  customer,
 }: {
   amount: number
   productName: string
   onBack: () => void
+  customer?: Customer
 }) {
   const [step, setStep] = useState<"form" | "processing" | "pix" | "error">(
-    "form",
+    customer ? "processing" : "form",
   )
   const [phase, setPhase] = useState(0)
+  const submittedRef = useRef(false)
   const [pix, setPix] = useState<PixData | null>(null)
   const [approved, setApproved] = useState(false)
   const [errorMsg, setErrorMsg] = useState("")
@@ -411,6 +414,15 @@ export function PixPaymentFlow({
       if (pollRef.current) clearInterval(pollRef.current)
     }
   }, [])
+
+  // Dispara a geração do Pix automaticamente quando os dados já vêm do checkout
+  useEffect(() => {
+    if (customer && !submittedRef.current) {
+      submittedRef.current = true
+      handleSubmit(customer)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customer])
 
   async function handleSubmit(customer: Customer) {
     setStep("processing")
