@@ -23,6 +23,28 @@ const images = [
   "/images/tg-11.png",
 ];
 
+type Combo = {
+  id: number;
+  label: string;
+  price: number;
+  original: number;
+  image: string;
+  best?: boolean;
+};
+
+const combos: Combo[] = [
+  { id: 1, label: "1 Ampola", price: 97, original: 134, image: "/images/tg-11.png" },
+  { id: 2, label: "2 Ampolas", price: 147, original: 204, image: "/images/tg-9.png" },
+  { id: 4, label: "4 Ampolas", price: 197, original: 270, image: "/images/tg-8.png", best: true },
+];
+
+function formatBRL(value: number) {
+  return value.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 type Review = {
   avatar: string;
   name: string;
@@ -100,6 +122,10 @@ export function ProductPage() {
   );
   const [qty, setQty] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [comboId, setComboId] = useState(4);
+  const combo = combos.find((c) => c.id === comboId) ?? combos[0];
+  const off = Math.round((1 - combo.price / combo.original) * 100);
+  const installment = combo.price / 12;
 
   return (
     <div className="min-h-screen bg-[#ebebeb] text-[#333]">
@@ -260,18 +286,57 @@ export function ProductPage() {
               </div>
 
               <div>
-                <div className="text-sm text-[#999] line-through">R$ 221,82</div>
+                <div className="text-sm text-[#999] line-through">R$ {formatBRL(combo.original)}</div>
                 <div className="flex items-center gap-2">
                   <div className="text-3xl font-light text-[#333]">
-                    R$ <span className="font-normal">159</span>
-                    <span className="align-top text-lg">,90</span>
+                    R$ <span className="font-normal">{combo.price}</span>
+                    <span className="align-top text-lg">,00</span>
                   </div>
-                  <span className="text-sm text-[#00a650]">27% OFF</span>
+                  <span className="text-sm text-[#00a650]">{off}% OFF</span>
                 </div>
-                <div className="text-sm text-[#00a650]">em 12x R$ 15,80 sem juros</div>
+                <div className="text-sm text-[#00a650]">em 12x R$ {formatBRL(installment)} sem juros</div>
                 <a href="#" className="text-xs text-[#3483fa]">
                   Ver os meios de pagamento
                 </a>
+              </div>
+
+              {/* Seletor de combos */}
+              <div>
+                <div className="mb-2 text-sm font-semibold text-[#333]">Selecionar opções</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {combos.map((c) => {
+                    const active = c.id === comboId;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => setComboId(c.id)}
+                        className={`relative flex flex-col items-center rounded-lg border-2 bg-white p-2 pt-3 text-center transition ${
+                          active
+                            ? "border-[#3483fa] shadow-sm"
+                            : "border-[#e0e0e0] hover:border-[#b3b3b3]"
+                        }`}
+                      >
+                        {c.best && (
+                          <span className="absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#e91e63] px-2 py-0.5 text-[9px] font-bold uppercase leading-none text-white">
+                            Melhor custo
+                          </span>
+                        )}
+                        <div className="flex h-12 w-full items-center justify-center">
+                          <img
+                            src={c.image}
+                            alt={c.label}
+                            className="max-h-12 max-w-full object-contain"
+                          />
+                        </div>
+                        <div className={`mt-2 text-xs font-semibold ${active ? "text-[#3483fa]" : "text-[#333]"}`}>
+                          {c.label}
+                        </div>
+                        <div className="text-xs text-[#333]">R${formatBRL(c.price)}</div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="text-sm text-[#333]">Cor: <span className="font-semibold">Branco</span></div>
