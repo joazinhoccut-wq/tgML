@@ -53,6 +53,19 @@ function formatBRL(value: number) {
   });
 }
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.02v11.67a2.4 2.4 0 0 1-2.4 2.32 2.4 2.4 0 0 1 0-4.8c.17 0 .34.02.5.06v-3.1a5.5 5.5 0 0 0-.5-.03 5.42 5.42 0 1 0 5.42 5.42V9.01a7.3 7.3 0 0 0 4.25 1.36V7.35a4.28 4.28 0 0 1-3.2-1.53Z" />
+    </svg>
+  );
+}
+
 type Review = {
   avatar: string;
   name: string;
@@ -1120,28 +1133,28 @@ export function ProductPage() {
 
           <div className="mt-4 rounded-lg border border-[#e0e0e0]">
             <div className="flex items-center gap-3 border-b border-[#e0e0e0] p-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#333] text-white">
-                <ShieldCheck className="h-6 w-6" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#111] text-white">
+                <TikTokIcon className="h-6 w-6" />
               </div>
               <div>
-                <div className="flex items-center gap-1 text-base font-semibold text-[#333]">
-                  T.G Farma
+                <div className="flex items-center gap-1 text-base font-semibold text-[#111]">
+                  TikTok Shop
                   <BadgeCheck className="h-4 w-4 text-[#3483fa]" />
                 </div>
                 <div className="text-xs text-[#666]">
-                  Operador oficial · Vendedor verificado
+                  Operador oficial · Intermediador de pagamento
                 </div>
               </div>
             </div>
             <dl className="divide-y divide-[#f0f0f0] text-sm">
               {[
-                { term: "Razão social", desc: "T.G Farmacêutica Ltda." },
+                { term: "Razão social", desc: "TikTok Brasil Serviços de Internet Ltda." },
                 { term: "CNPJ", desc: "40.442.163/0001-52" },
                 {
                   term: "Sede",
                   desc: "Av. Brigadeiro Faria Lima, 3477 · 15º andar · Itaim Bibi · São Paulo/SP · 04538-133",
                 },
-                { term: "Atendimento", desc: "suporte@tgfarma.com.br · 24h" },
+                { term: "Atendimento", desc: "seller-support.tiktok.com · 24h" },
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-3 gap-2 p-3">
                   <dt className="text-xs font-semibold uppercase text-[#999]">
