@@ -161,3 +161,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Evita o zoom automático do iOS Safari ao focar campos de formulário.
+   O Safari amplia a tela quando o input tem font-size < 16px, então
+   garantimos no mínimo 16px em telas de toque menores. Fica fora de
+   @layer de propósito: CSS sem camada vence as utilities do Tailwind
+   (ex.: text-sm) que ficam dentro de camadas. */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
