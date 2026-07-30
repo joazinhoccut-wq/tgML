@@ -51,12 +51,14 @@ export function CheckoutPage({
   savedAddress,
   onBack,
   onEditAddress,
+  onPay,
 }: {
   combo: Combo;
   productName: string;
   savedAddress: SavedAddress;
   onBack: () => void;
   onEditAddress: () => void;
+  onPay: () => void;
 }) {
 
   const productValue = combo.original;
@@ -287,6 +289,7 @@ export function CheckoutPage({
           </div>
           <button
             type="button"
+            onClick={onPay}
             className="shrink-0 rounded-md bg-[#3483fa] px-8 py-3 text-sm font-semibold text-white hover:bg-[#2968c8]"
           >
             Pagar e finalizar
