@@ -177,6 +177,41 @@ const reviews: Review[] = [
     rating: 5,
     text: "diabetico tipo 2 ha 9 anos, tomava 4 remedio por dia e a glicemia nao baixava nunca.. em 5 semanas a jejum caiu de 180 pra 110 SEM hipoglicemia. meu endocrino ficou impressionado e pediu pra continuar +6 meses. gente isso mudou minha vida, eu achava q ia perder o pé um dia 😢 se vc é diabetico nao perde essa, pode ser sua virada tbm",
   },
+  {
+    avatar: "/reviews/sandra.webp",
+    name: "S**a M.",
+    date: "10 junho 2026",
+    rating: 5,
+    text: "COMENTÁRIO PENDENTE — enviar o texto da Sandra para substituir aqui.",
+  },
+  {
+    avatar: "/reviews/victor.webp",
+    name: "V**or L.",
+    date: "10 junho 2026",
+    rating: 5,
+    text: "roupa q eu guardava ha 2 anos com esperança boba voltou a SERVIR.. chorei no provador q vergonha kkk -11kg em 9 semanas sem academia, sem sofrer. aplico toda quarta de manha antes do café, virou rotina. eu ja tinha aceitado q ia engordar até morrer.. hj meus filhos me chamam pra brincar e eu CONSIGO correr com eles 🥹 nao perde nao",
+  },
+  {
+    avatar: "/reviews/karina.webp",
+    name: "K**a N.",
+    date: "9 junho 2026",
+    rating: 5,
+    text: "confesso q tava com MUITO medo de falsificaçao, ja tinha sido enganada antes em outra loja.. mas o lacre veio numerado, consegui rastrear o lote no site do fabricante e tudo conferiu certo. ai relaxei e apliquei.. funcionou demais, 4kg na primeira quinzena 🙏 quem ta com medo igual eu tava pode comprar, aqui é loja serio msm",
+  },
+  {
+    avatar: "/reviews/eduardo.webp",
+    name: "E**do P.",
+    date: "8 junho 2026",
+    rating: 5,
+    text: "pedido chegou no dia EXATO q prometeram, com nota fiscal no email e tudo direitinho. o entregador dos correios trouxe a caixa termica ainda selada e gelada. profissionalismo nivel amazon, juro.. isso aqui nao é loja improvisada nao, é empresa estruturada. pode comprar sem medo",
+  },
+  {
+    avatar: "/reviews/ines.webp",
+    name: "I**s A.",
+    date: "7 junho 2026",
+    rating: 4,
+    text: "sendo honesta: funciona MT bem mas precisa de disciplina com horario fixo e beber agua (2L por dia, vem escrito no folheto). quem seguir nao tem como dar errado. ja perdi 6kg em 4 semanas, comendo com prazer, sem ansiedade. tirei uma estrela so pq queria q viesse com lembrete no celular kkkk recomendo dms",
+  },
 ];
 
 const REVIEWS_PER_PAGE = 4;
