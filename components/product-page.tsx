@@ -188,7 +188,7 @@ export function ProductPage() {
         <div className="rounded-md bg-white p-3 shadow-sm sm:p-6">
           <div className="grid gap-6 md:grid-cols-[80px_1fr_360px]">
             {/* Thumbs */}
-            <div className="order-2 flex gap-2 md:order-1 md:flex-col">
+            <div className="order-2 flex gap-2 md:order-none md:col-start-1 md:row-start-1 md:flex-col">
               {images.map((src, i) => (
                 <button
                   key={i}
@@ -204,7 +204,7 @@ export function ProductPage() {
             </div>
 
             {/* Main image */}
-            <div className="order-1 md:order-2">
+            <div className="order-1 md:order-none md:col-start-2 md:row-start-1">
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded bg-white">
                 <img
                   src={images[selected]}
@@ -212,8 +212,11 @@ export function ProductPage() {
                   className="max-h-full max-w-full object-contain"
                 />
               </div>
+            </div>
 
-              <div className="mt-6 border-t pt-6">
+            {/* Description */}
+            <div className="order-4 md:order-none md:col-start-2 md:row-start-2">
+              <div className="mt-6 border-t pt-6 md:mt-0">
                 <h2 className="mb-2 text-lg font-semibold text-[#333]">
                   Sobre este produto
                 </h2>
@@ -238,7 +241,7 @@ export function ProductPage() {
             </div>
 
             {/* Buy box */}
-            <aside className="order-3 space-y-4">
+            <aside className="order-3 space-y-4 md:order-none md:col-start-3 md:row-start-1 md:row-span-2">
               <div className="text-xs text-[#666]">Novo | 8.742 vendidos</div>
               <h1 className="text-base font-semibold leading-tight text-[#333] sm:text-xl">
                 Tirzepatida T.G. 15mg — 4 Ampolas
