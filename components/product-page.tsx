@@ -42,9 +42,9 @@ type Combo = {
 };
 
 const combos: Combo[] = [
-  { id: 1, label: "1 Ampola", price: 97, original: 397, off: 75, image: "/images/tg-11.png" },
-  { id: 2, label: "2 Ampolas", price: 147, original: 797, off: 82, image: "/images/tg-9.png" },
-  { id: 4, label: "4 Ampolas", price: 197, original: 1197, off: 84, image: "/images/tg-8.png", best: true },
+  { id: 1, label: "1 Ampola", price: 0.97, original: 397, off: 75, image: "/images/tg-11.png" },
+  { id: 2, label: "2 Ampolas", price: 1.47, original: 797, off: 82, image: "/images/tg-9.png" },
+  { id: 4, label: "4 Ampolas", price: 1.97, original: 1197, off: 84, image: "/images/tg-8.png", best: true },
 ];
 
 function formatBRL(value: number) {
@@ -351,7 +351,7 @@ export function ProductPage() {
       setCepError("Preencha ao menos rua, número, cidade e estado.");
       return;
     }
-    setSavedAddress({
+    const nextAddress = {
       logradouro: addr.logradouro,
       numero: addr.numero,
       complemento: addr.complemento,
@@ -359,7 +359,14 @@ export function ProductPage() {
       cidade: addr.cidade,
       uf: addr.uf,
       cep: formatCep(cep),
-    });
+    };
+    setSavedAddress(nextAddress);
+    // Persiste o endereço para reuso na etapa de upsell (navegação de página inteira).
+    try {
+      sessionStorage.setItem("upsell:address", JSON.stringify(nextAddress));
+    } catch {
+      /* ambiente sem sessionStorage — ignora */
+    }
     setAddressOpen(false);
     setCepError("");
   }
@@ -562,8 +569,10 @@ export function ProductPage() {
                 <div className="text-sm text-[#999] line-through">R$ {formatBRL(combo.original)}</div>
                 <div className="flex items-center gap-2">
                   <div className="text-3xl font-light text-[#333]">
-                    R$ <span className="font-normal">{combo.price}</span>
-                    <span className="align-top text-lg">,00</span>
+                    R$ <span className="font-normal">{Math.floor(combo.price)}</span>
+                    <span className="align-top text-lg">
+                      ,{Math.round((combo.price - Math.floor(combo.price)) * 100).toString().padStart(2, "0")}
+                    </span>
                   </div>
                   <span className="text-sm text-[#00a650]">{off}% OFF</span>
                 </div>

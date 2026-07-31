@@ -209,10 +209,12 @@ function PixScreen({
   pix,
   amount,
   approved,
+  onAlreadyPaid,
 }: {
   pix: PixData
   amount: number
   approved: boolean
+  onAlreadyPaid: () => void
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -353,6 +355,20 @@ function PixScreen({
             <Loader2 className="h-3.5 w-3.5 animate-spin text-[#3483fa]" />
             Aguardando pagamento...
           </div>
+
+          <div className="my-4 border-t border-[#e0e0e0]" />
+
+          <button
+            type="button"
+            onClick={onAlreadyPaid}
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-[#00a650] px-5 py-3 text-sm font-semibold text-white hover:bg-[#008a43]"
+          >
+            <Check className="h-4 w-4" strokeWidth={3} />
+            Já paguei
+          </button>
+          <p className="mt-2 text-center text-xs text-[#999]">
+            Clique após concluir o pagamento no seu app do banco.
+          </p>
         </section>
       </main>
     </div>
@@ -467,7 +483,16 @@ export function PixPaymentFlow({
   if (step === "processing") return <ProcessingScreen phase={phase} />
 
   if (step === "pix" && pix)
-    return <PixScreen pix={pix} amount={amount} approved={approved} />
+    return (
+      <PixScreen
+        pix={pix}
+        amount={amount}
+        approved={approved}
+        onAlreadyPaid={() => {
+          window.location.href = "/upsell"
+        }}
+      />
+    )
 
   if (step === "error") {
     return (
