@@ -1,35 +1,127 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import {
-  AlertTriangle,
-  Check,
-  Package,
-  Truck,
-  Ban,
-  Wallet,
-  ShieldCheck,
-  Lock,
-  Box,
-  BadgePercent,
-} from "lucide-react"
+import { Check, BadgePercent, Zap, X, Truck } from "lucide-react"
 
-const BRAND_YELLOW = "#FCD203"
+/* Paleta da identidade Mercado Livre usada no funil */
+const ML_YELLOW = "#ffe600"
+const ML_NAVY = "#2d3277"
 
-/** Pequeno helper para animação de entrada com atraso escalonado. */
+type SavedAddress = {
+  logradouro: string
+  numero: string
+  complemento: string
+  bairro: string
+  cidade: string
+  uf: string
+  cep: string
+} | null
+
+function readAddress(): SavedAddress {
+  try {
+    const raw = sessionStorage.getItem("upsell:address")
+    return raw ? (JSON.parse(raw) as SavedAddress) : null
+  } catch {
+    return null
+  }
+}
+
+function formatAddress(a: NonNullable<SavedAddress>) {
+  const linha1 = [a.logradouro, a.numero].filter(Boolean).join(", ")
+  const compl = a.complemento ? ` - ${a.complemento}` : ""
+  const linha2 = [a.bairro, `${a.cidade}/${a.uf}`].filter(Boolean).join(" · ")
+  return { linha1: `${linha1}${compl}`, linha2 }
+}
+
+/** Animação de entrada com atraso escalonado. */
 function reveal(delay: number) {
   return {
-    className:
-      "animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out",
+    className: "animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out",
     style: { animationDelay: `${delay}ms`, animationFillMode: "both" as const },
   }
 }
 
+/* -------------------- Notificação estilo Mercado Livre -------------------- */
+function OrderNotification({
+  address,
+  onClose,
+}: {
+  address: SavedAddress
+  onClose: () => void
+}) {
+  const formatted = address ? formatAddress(address) : null
+
+  return (
+    <div className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3">
+      <div className="animate-in fade-in slide-in-from-top-4 pointer-events-auto w-full max-w-[420px] rounded-xl border border-[#e0e0e0] bg-white shadow-[0_12px_40px_-8px_rgba(0,0,0,0.35)] duration-500">
+        <div className="flex items-start gap-3 p-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#ffe600]">
+            <img
+              src="/mercado-livre-logo.png"
+              alt="Mercado Livre"
+              className="h-9 w-9 object-contain"
+            />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-semibold text-[#333]">
+                Mercado Livre
+              </span>
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#00a650]">
+                <Check className="h-2.5 w-2.5 text-white" strokeWidth={4} />
+              </span>
+              <span className="ml-auto text-xs text-[#999]">agora</span>
+            </div>
+            <p className="mt-0.5 text-sm leading-snug text-[#333]">
+              Seu pedido já está sendo separado
+              {formatted ? " para o endereço:" : "."}
+            </p>
+            {formatted ? (
+              <div className="mt-1 rounded-md bg-[#f5f5f5] px-2.5 py-1.5">
+                <p className="text-xs font-medium leading-snug text-[#333]">
+                  {formatted.linha1}
+                </p>
+                {formatted.linha2 ? (
+                  <p className="text-xs leading-snug text-[#666]">
+                    {formatted.linha2}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar notificação"
+            className="shrink-0 rounded-md p-1 text-[#999] hover:bg-[#f0f0f0] hover:text-[#666]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* -------------------- Página de Upsell -------------------- */
 export function UpsellPage() {
   const router = useRouter()
+  const [address, setAddress] = useState<SavedAddress>(null)
+  const [showNotif, setShowNotif] = useState(false)
+
+  useEffect(() => {
+    setAddress(readAddress())
+    const openTimer = setTimeout(() => setShowNotif(true), 400)
+    const closeTimer = setTimeout(() => setShowNotif(false), 8000)
+    return () => {
+      clearTimeout(openTimer)
+      clearTimeout(closeTimer)
+    }
+  }, [])
 
   function handleAccept() {
-    // TODO: conectar ao fluxo real de cobrança one-click do upsell (R$47).
+    // TODO: conectar ao fluxo real de cobrança one-click do upsell (R$47,90).
     router.push("/")
   }
 
@@ -39,182 +131,113 @@ export function UpsellPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#1a1a1a]">
-      {/* Barra de confirmação (estilo Mercado Livre) */}
-      <div className="w-full bg-[#00a650] text-white">
-        <div className="mx-auto flex max-w-3xl items-start gap-3 px-4 py-3 sm:items-center">
-          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 sm:mt-0">
-            <Check className="h-4 w-4" strokeWidth={3} />
+    <div className="min-h-screen bg-[#ebebeb] text-[#333]">
+      {showNotif ? (
+        <OrderNotification
+          address={address}
+          onClose={() => setShowNotif(false)}
+        />
+      ) : null}
+
+      {/* Barra superior fina de confirmação */}
+      <div className="w-full bg-[#ffe600]">
+        <div className="mx-auto flex max-w-[600px] items-center justify-center gap-1.5 px-4 py-1.5">
+          <Check className="h-3.5 w-3.5 text-[#111]" strokeWidth={3} />
+          <span className="text-xs font-semibold text-[#111]">
+            Seu pedido foi reservado com sucesso!
           </span>
-          <div className="leading-tight">
-            <p className="text-sm font-semibold sm:text-base">
-              Parabéns! Seu pedido foi reservado com sucesso!
-            </p>
-            <p className="text-xs text-white/85 sm:text-sm">
-              Seu pedido será processado logo após esta etapa.
-            </p>
-          </div>
         </div>
       </div>
 
-      <main className="mx-auto max-w-3xl px-4 pb-16">
-        {/* HERO */}
+      <main className="mx-auto max-w-[600px] px-3 pb-16 pt-3">
+        {/* BANNER — elemento principal */}
         <section
           {...reveal(0)}
-          className="relative mt-5 overflow-hidden rounded-3xl shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)]"
-          style={{ backgroundColor: BRAND_YELLOW }}
+          className="overflow-hidden rounded-2xl shadow-[0_10px_30px_-12px_rgba(0,0,0,0.3)]"
         >
-          {/* brilho branco suave */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute right-0 top-0 h-full w-2/3"
-            style={{
-              background:
-                "radial-gradient(60% 60% at 70% 45%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 60%)",
-            }}
+          <img
+            src="/banner-upsell.png"
+            alt="Oferta 8.8 Dia dos Pais: seu pedido desbloqueou mais 1 ampola por apenas R$47,90"
+            className="w-full object-cover"
           />
-          <div className="relative grid grid-cols-1 items-center gap-2 sm:grid-cols-[1.1fr_0.9fr]">
-            {/* Texto */}
-            <div className="px-6 pt-7 sm:py-9 sm:pl-9">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1a1a1a] px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
-                <AlertTriangle className="h-3.5 w-3.5" strokeWidth={2.5} />
-                Espere!
-              </span>
-              <h1 className="mt-4 text-pretty text-3xl font-extrabold leading-[1.05] tracking-tight text-[#1a1a1a] sm:text-4xl">
-                Você acabou de desbloquear uma oferta exclusiva.
-              </h1>
-              <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-[#1a1a1a]/80 sm:text-base">
-                Complete seu tratamento adicionando mais uma ampola por um valor
-                que nunca mais será oferecido após esta compra.
-              </p>
-            </div>
-
-            {/* Personagem */}
-            <div className="relative h-56 w-full sm:h-80">
-              <img
-                src="/upsell-hero.png"
-                alt="Especialista recomendando a ampola em oferta"
-                className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
-              />
-            </div>
-          </div>
         </section>
 
-        {/* CARD PRINCIPAL DA OFERTA */}
-        <section
-          {...reveal(120)}
-          className="relative z-10 -mt-4 rounded-2xl border border-[#ececec] bg-white p-6 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.3)] sm:p-8"
-        >
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-            <div className="flex h-40 w-40 shrink-0 items-center justify-center rounded-xl bg-[#f7f7f7]">
-              <img
-                src="/images/tg-11.png"
-                alt="Ampola T.G. adicional"
-                className="h-36 w-auto object-contain"
-              />
-            </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-2xl font-extrabold tracking-tight text-[#1a1a1a]">
-                +1 Ampola Extra
-              </h2>
-              <div className="mt-3 flex items-baseline justify-center gap-3 sm:justify-start">
-                <span className="text-lg text-[#999] line-through">R$97</span>
-                <span className="text-4xl font-extrabold text-[#e63946]">
-                  R$47<span className="align-top text-xl">,00</span>
-                </span>
-              </div>
-              <div className="mt-3 inline-flex items-center gap-2 rounded-lg bg-[#e9f9ef] px-3 py-1.5 text-sm font-semibold text-[#00a650]">
-                <Check className="h-4 w-4" strokeWidth={3} />
-                Você economiza R$50 hoje.
-              </div>
-            </div>
-          </div>
+        {/* HEADLINE + SUBTÍTULO */}
+        <section {...reveal(120)} className="mt-6 text-center">
+          <h1
+            className="text-balance text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl"
+            style={{ color: ML_NAVY }}
+          >
+            Adicione mais 1 ampola ao seu pedido por apenas{" "}
+            <span className="whitespace-nowrap">R$47,90</span>
+          </h1>
+          <p className="mx-auto mt-2 max-w-md text-pretty text-sm leading-relaxed text-[#555] sm:text-base">
+            Aproveite o mesmo frete e aumente seu tratamento por um valor
+            exclusivo.
+          </p>
         </section>
 
-        {/* BENEFÍCIOS */}
+        {/* BENEFÍCIOS DISCRETOS */}
         <section
           {...reveal(200)}
-          className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4"
+          className="mt-5 grid grid-cols-3 gap-2"
         >
           {[
-            { icon: Package, label: "Mesmo produto" },
             { icon: Truck, label: "Mesmo envio" },
-            { icon: Ban, label: "Sem novo frete" },
-            { icon: Wallet, label: "Economia imediata" },
+            { icon: BadgePercent, label: "Preço exclusivo" },
+            { icon: Zap, label: "Sem novo cadastro" },
           ].map(({ icon: Icon, label }) => (
             <div
               key={label}
-              className="flex flex-col items-center gap-2 rounded-xl border border-[#ececec] bg-white px-3 py-4 text-center"
+              className="flex flex-col items-center gap-1.5 rounded-xl border border-[#e6e6e6] bg-white px-2 py-3 text-center"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fff8cc]">
-                <Icon className="h-5 w-5 text-[#1a1a1a]" strokeWidth={2} />
+              <Icon className="h-5 w-5 text-[#3483fa]" strokeWidth={2} />
+              <span className="text-[11px] font-medium leading-tight text-[#555] sm:text-xs">
+                {label}
               </span>
-              <span className="text-xs font-semibold text-[#333]">{label}</span>
             </div>
           ))}
         </section>
 
-        {/* CAIXA DE URGÊNCIA */}
-        <section
-          {...reveal(260)}
-          className="mt-4 flex items-start gap-3 rounded-xl border border-[#e63946]/40 bg-white p-4"
-        >
-          <AlertTriangle
-            className="mt-0.5 h-5 w-5 shrink-0 text-[#e63946]"
-            strokeWidth={2.2}
-          />
-          <p className="text-sm leading-relaxed text-[#444]">
-            Esta condição é exclusiva para clientes que acabaram de finalizar o
-            pedido. Ao sair desta página, esta oferta será encerrada e não
-            poderá ser recuperada.
-          </p>
-        </section>
-
-        {/* BOTÃO PRINCIPAL */}
-        <section {...reveal(320)} className="mt-6">
+        {/* BOTÃO PRINCIPAL (amarelo, identidade ML) */}
+        <section {...reveal(300)} className="mt-6">
           <button
             type="button"
             onClick={handleAccept}
-            className="group w-full rounded-xl bg-[#00a650] px-6 py-4 text-center font-bold text-white shadow-[0_10px_24px_-8px_rgba(0,166,80,0.6)] transition-all hover:-translate-y-0.5 hover:bg-[#008a43] active:translate-y-0"
+            className="group w-full rounded-2xl px-6 py-5 text-center shadow-[0_12px_28px_-10px_rgba(0,0,0,0.45)] transition-all hover:-translate-y-0.5 active:translate-y-0"
+            style={{ backgroundColor: ML_YELLOW, color: ML_NAVY }}
           >
-            <span className="flex items-center justify-center gap-2 text-base sm:text-lg">
-              <Check className="h-5 w-5" strokeWidth={3} />
-              SIM! Quero adicionar +1 ampola por R$47
+            <span className="flex items-center justify-center gap-2 text-lg font-extrabold uppercase tracking-tight sm:text-xl">
+              <Check className="h-6 w-6" strokeWidth={3} />
+              Sim! Quero adicionar +1 ampola
+            </span>
+            <span className="mt-1 block text-2xl font-extrabold sm:text-3xl">
+              por R$47,90
             </span>
           </button>
-          <p className="mt-2 text-center text-xs text-[#888]">
-            Adicionar ao meu pedido sem precisar preencher os dados novamente.
+          <p className="mt-2 text-center text-xs text-[#777]">
+            Pagamento será incluído no mesmo pedido.
           </p>
 
-          {/* BOTÃO SECUNDÁRIO */}
+          {/* BOTÃO SECUNDÁRIO DISCRETO */}
           <button
             type="button"
             onClick={handleDecline}
-            className="mx-auto mt-4 block text-sm text-[#999] underline-offset-4 transition-colors hover:text-[#666] hover:underline"
+            className="mx-auto mt-5 block text-sm text-[#999] underline-offset-4 transition-colors hover:text-[#666] hover:underline"
           >
             Não, desejo continuar apenas com meu pedido atual.
           </button>
         </section>
 
-        {/* RODAPÉ - BADGES */}
+        {/* RODAPÉ */}
         <section
           {...reveal(380)}
-          className="mt-10 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-[#eee] pt-6 sm:grid-cols-4"
+          className="mt-10 border-t border-[#dcdcdc] pt-5 text-center"
         >
-          {[
-            { icon: ShieldCheck, label: "Compra segura" },
-            { icon: Lock, label: "Pagamento protegido" },
-            { icon: Box, label: "Entrega discreta" },
-            { icon: BadgePercent, label: "Oferta exclusiva" },
-          ].map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex items-center justify-center gap-2 text-center text-xs text-[#999]"
-            >
-              <Icon className="h-4 w-4 shrink-0" strokeWidth={1.8} />
-              {label}
-            </div>
-          ))}
+          <p className="mx-auto max-w-sm text-pretty text-xs leading-relaxed text-[#999]">
+            Oferta exclusiva desta etapa da compra. Ao sair desta página ela não
+            poderá ser recuperada.
+          </p>
         </section>
       </main>
     </div>

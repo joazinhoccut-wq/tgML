@@ -351,7 +351,7 @@ export function ProductPage() {
       setCepError("Preencha ao menos rua, número, cidade e estado.");
       return;
     }
-    setSavedAddress({
+    const nextAddress = {
       logradouro: addr.logradouro,
       numero: addr.numero,
       complemento: addr.complemento,
@@ -359,7 +359,14 @@ export function ProductPage() {
       cidade: addr.cidade,
       uf: addr.uf,
       cep: formatCep(cep),
-    });
+    };
+    setSavedAddress(nextAddress);
+    // Persiste o endereço para reuso na etapa de upsell (navegação de página inteira).
+    try {
+      sessionStorage.setItem("upsell:address", JSON.stringify(nextAddress));
+    } catch {
+      /* ambiente sem sessionStorage — ignora */
+    }
     setAddressOpen(false);
     setCepError("");
   }
