@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { Check, BadgePercent, Zap, X, Truck } from "lucide-react"
 
 /* Paleta da identidade Mercado Livre usada no funil */
-const ML_YELLOW = "#ffe600"
 const ML_NAVY = "#2d3277"
 
 type SavedAddress = {
@@ -140,21 +139,18 @@ export function UpsellPage() {
       ) : null}
 
       {/* Barra superior fina de confirmação */}
-      <div className="w-full bg-[#ffe600]">
+      <div className="w-full bg-[#00a650]">
         <div className="mx-auto flex max-w-[600px] items-center justify-center gap-1.5 px-4 py-1.5">
-          <Check className="h-3.5 w-3.5 text-[#111]" strokeWidth={3} />
-          <span className="text-xs font-semibold text-[#111]">
-            Seu pedido foi reservado com sucesso!
+          <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+          <span className="text-xs font-semibold uppercase tracking-wide text-white">
+            Seu pedido foi separado com sucesso!
           </span>
         </div>
       </div>
 
       <main className="mx-auto max-w-[600px] px-3 pb-16 pt-3">
-        {/* BANNER — elemento principal */}
-        <section
-          {...reveal(0)}
-          className="overflow-hidden rounded-2xl shadow-[0_10px_30px_-12px_rgba(0,0,0,0.3)]"
-        >
+        {/* BANNER — elemento principal (mesmo tratamento do banner do checkout) */}
+        <section {...reveal(0)} className="overflow-hidden rounded-lg shadow-sm">
           <img
             src="/banner-upsell.png"
             alt="Oferta 8.8 Dia dos Pais: seu pedido desbloqueou mais 1 ampola por apenas R$47,90"
@@ -178,10 +174,7 @@ export function UpsellPage() {
         </section>
 
         {/* BENEFÍCIOS DISCRETOS */}
-        <section
-          {...reveal(200)}
-          className="mt-5 grid grid-cols-3 gap-2"
-        >
+        <section {...reveal(200)} className="mt-5 grid grid-cols-3 gap-2">
           {[
             { icon: Truck, label: "Mesmo envio" },
             { icon: BadgePercent, label: "Preço exclusivo" },
@@ -189,23 +182,34 @@ export function UpsellPage() {
           ].map(({ icon: Icon, label }) => (
             <div
               key={label}
-              className="flex flex-col items-center gap-1.5 rounded-xl border border-[#e6e6e6] bg-white px-2 py-3 text-center"
+              className="flex flex-col items-center gap-2 rounded-xl border border-[#e6e6e6] bg-white px-2 py-4 text-center"
             >
-              <Icon className="h-5 w-5 text-[#3483fa]" strokeWidth={2} />
-              <span className="text-[11px] font-medium leading-tight text-[#555] sm:text-xs">
+              <span
+                className="flex h-10 w-10 items-center justify-center rounded-full"
+                style={{ backgroundColor: "#fff3b0" }}
+              >
+                <Icon
+                  className="h-5 w-5"
+                  strokeWidth={2.2}
+                  style={{ color: ML_NAVY }}
+                />
+              </span>
+              <span
+                className="text-[11px] font-semibold leading-tight sm:text-xs"
+                style={{ color: ML_NAVY }}
+              >
                 {label}
               </span>
             </div>
           ))}
         </section>
 
-        {/* BOTÃO PRINCIPAL (amarelo, identidade ML) */}
+        {/* BOTÃO PRINCIPAL (azul de ação, mesmo do checkout) */}
         <section {...reveal(300)} className="mt-6">
           <button
             type="button"
             onClick={handleAccept}
-            className="group w-full rounded-2xl px-6 py-5 text-center shadow-[0_12px_28px_-10px_rgba(0,0,0,0.45)] transition-all hover:-translate-y-0.5 active:translate-y-0"
-            style={{ backgroundColor: ML_YELLOW, color: ML_NAVY }}
+            className="animate-cta-pulse w-full rounded-2xl bg-[#3483fa] px-6 py-5 text-center text-white transition-colors hover:bg-[#2968c8] active:bg-[#2968c8]"
           >
             <span className="flex items-center justify-center gap-2 text-lg font-extrabold uppercase tracking-tight sm:text-xl">
               <Check className="h-6 w-6" strokeWidth={3} />
