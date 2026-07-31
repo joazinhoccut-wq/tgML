@@ -61,45 +61,40 @@ export function UpsellPage() {
         {/* HERO */}
         <section
           {...reveal(0)}
-          className="relative mt-5 rounded-3xl shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)]"
+          className="relative mt-5 overflow-hidden rounded-3xl shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)]"
           style={{ backgroundColor: BRAND_YELLOW }}
         >
-          {/* brilho branco suave atrás do personagem */}
+          {/* brilho branco suave */}
           <div
             aria-hidden
-            className="pointer-events-none absolute bottom-0 right-0 hidden h-full w-1/2 sm:block"
+            className="pointer-events-none absolute right-0 top-0 h-full w-2/3"
             style={{
               background:
-                "radial-gradient(55% 55% at 62% 40%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 62%)",
+                "radial-gradient(60% 60% at 70% 45%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 60%)",
             }}
           />
-          <div className="relative grid grid-cols-1 items-end gap-2 sm:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative grid grid-cols-1 items-center gap-2 sm:grid-cols-[1.1fr_0.9fr]">
             {/* Texto */}
-            <div className="px-6 pt-8 sm:py-10 sm:pl-9">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1a1a1a] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
+            <div className="px-6 pt-7 sm:py-9 sm:pl-9">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1a1a1a] px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
                 <AlertTriangle className="h-3.5 w-3.5" strokeWidth={2.5} />
                 Espere!
               </span>
-              <h1 className="mt-4 text-balance text-3xl font-extrabold uppercase leading-[1.02] tracking-tight text-[#1a1a1a] sm:text-[2.6rem]">
+              <h1 className="mt-4 text-pretty text-3xl font-extrabold leading-[1.05] tracking-tight text-[#1a1a1a] sm:text-4xl">
                 Você acabou de desbloquear uma oferta exclusiva.
               </h1>
-              <p className="mt-4 max-w-md text-pretty text-sm leading-relaxed text-[#1a1a1a]/80 sm:text-base">
+              <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-[#1a1a1a]/80 sm:text-base">
                 Complete seu tratamento adicionando mais uma ampola por um valor
                 que nunca mais será oferecido após esta compra.
               </p>
             </div>
 
-            {/* Personagem — recortado da faixa amarela e ultrapassando a seção */}
-            <div className="relative mx-auto h-64 w-full max-w-[380px] overflow-hidden sm:h-[22rem] sm:overflow-visible">
+            {/* Personagem */}
+            <div className="relative h-56 w-full sm:h-80">
               <img
                 src="/upsell-hero.png"
-                alt="Especialista apontando para a oferta da ampola"
-                className="pointer-events-none absolute bottom-0 left-1/2 h-[122%] w-auto max-w-none -translate-x-1/2 object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.18)]"
-                style={{
-                  // recorta a faixa amarela lateral do banner original,
-                  // isolando o personagem ao centro
-                  clipPath: "inset(9% 34% 2% 34%)",
-                }}
+                alt="Especialista recomendando a ampola em oferta"
+                className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
               />
             </div>
           </div>
