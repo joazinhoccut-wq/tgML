@@ -129,8 +129,8 @@ export function UpsellPage() {
 
       {/* Header amarelo — mesma identidade do checkout */}
       <header className="sticky top-0 z-10 bg-[#ffe600]">
-        <div className="mx-auto flex max-w-[600px] items-center gap-3 px-4 py-4">
-          <h1 className="text-xl font-semibold text-[#111]">
+        <div className="mx-auto flex max-w-[600px] items-center justify-center px-4 py-4">
+          <h1 className="text-center text-2xl font-extrabold uppercase tracking-tight text-[#111]">
             Oferta exclusiva do seu pedido
           </h1>
         </div>
@@ -138,7 +138,7 @@ export function UpsellPage() {
 
       <main className="mx-auto max-w-[600px] px-3 py-3">
         {/* Confirmação discreta */}
-        <div className="flex items-center gap-2 rounded-lg bg-[#e8f8ee] px-4 py-2.5">
+        <div className="flex items-center justify-center gap-2 rounded-lg bg-[#e8f8ee] px-4 py-2.5">
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00a650]">
             <Check className="h-3 w-3 text-white" strokeWidth={4} />
           </span>
