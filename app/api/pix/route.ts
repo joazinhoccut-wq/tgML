@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const PARADISE_BASE_URL = "https://multi.paradisepags.com"
+const PINGUPAG_BASE_URL = "https://app.pingupag.com"
 
 type CustomerInput = {
   name: string
@@ -14,7 +14,7 @@ function onlyDigits(value: string) {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.API_KEY
+  const apiKey = process.env.SECRETKEY
 
   if (!apiKey) {
     return NextResponse.json(
@@ -54,15 +54,15 @@ export async function POST(req: NextRequest) {
   // Valor em centavos (arredondado para evitar problemas de ponto flutuante)
   const amountInCents = Math.round(amount * 100)
 
-  const origin = req.headers.get("origin") || `https://${req.headers.get("host") || ""}`
   const reference = `ML-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 
+  // source: "api_externa" ignora a validação de productHash, já que os
+  // produtos não são cadastrados na plataforma PinguPag.
   const payload = {
     amount: amountInCents,
     description: description?.trim() || "Compra Mercado Livre",
     reference,
     source: "api_externa",
-    offer_link: origin || "https://mercadolivre.com.br",
     customer: {
       name: customer.name.trim(),
       email: customer.email.trim(),
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${PARADISE_BASE_URL}/api/v1/transaction.php`, {
+    const res = await fetch(`${PINGUPAG_BASE_URL}/gateway/v1/transaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     const data = await res.json().catch(() => null)
 
     if (!res.ok || !data || data.status !== "success") {
-      console.log("[v0] Paradise error:", res.status, JSON.stringify(data))
+      console.log("[v0] PinguPag error:", res.status, JSON.stringify(data))
       return NextResponse.json(
         { error: "Não foi possível gerar o PIX. Tente novamente." },
         { status: 502 },
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
       expiresAt: data.expires_at ?? null,
     })
   } catch (err) {
-    console.log("[v0] Paradise fetch failed:", (err as Error).message)
+    console.log("[v0] PinguPag fetch failed:", (err as Error).message)
     return NextResponse.json(
       { error: "Falha na comunicação com o pagamento. Tente novamente." },
       { status: 502 },
