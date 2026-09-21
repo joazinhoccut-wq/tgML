@@ -690,8 +690,8 @@ export function ProductPage() {
               {/* Seller summary */}
               <div className="flex items-center gap-3 border-t pt-4">
                 <img
-                  src="https://pharmabrasiltg.shop/__l5e/assets-v1/2d9c2555-11eb-4f7b-bb64-82fcf7d2fc68/tg15-logo.webp"
-                  alt="T.G.15 Farmacêutica"
+                  src="/tg-pharma-logo.png"
+                  alt="TG Pharma — T.G Farmacêutica"
                   className="h-12 w-12 rounded object-contain"
                 />
                 <div className="text-xs">

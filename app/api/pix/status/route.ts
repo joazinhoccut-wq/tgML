@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const PARADISE_BASE_URL = "https://multi.paradisepags.com"
+const PINGUPAG_BASE_URL = "https://app.pingupag.com"
 
 export async function GET(req: NextRequest) {
-  const apiKey = process.env.API_KEY
+  const apiKey = process.env.SECRETKEY
 
   if (!apiKey) {
     return NextResponse.json({ error: "Configuração indisponível." }, { status: 500 })
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `${PARADISE_BASE_URL}/api/v1/query.php?action=get_transaction&id=${encodeURIComponent(id)}`,
+      `${PINGUPAG_BASE_URL}/gateway/v1/query?action=get_transaction&id=${encodeURIComponent(id)}`,
       {
         method: "GET",
         headers: {
