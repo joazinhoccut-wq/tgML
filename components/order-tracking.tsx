@@ -10,7 +10,6 @@ import {
   Copy,
   LockKeyhole,
   MapPin,
-  PackageCheck,
   RotateCcw,
   Search,
   ShieldCheck,
@@ -185,8 +184,12 @@ function BrandHeader() {
       <header className="bg-[#ffe600]">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#111] text-[#ffe600]">
-              <PackageCheck className="h-5 w-5" aria-hidden="true" />
+            <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
+              <img
+                src="/tg-pharma-logo.png"
+                alt="TG Pharma"
+                className="h-full w-full object-contain"
+              />
             </span>
             <div className="leading-tight">
               <p className="text-lg font-extrabold uppercase tracking-tight text-[#111]">
