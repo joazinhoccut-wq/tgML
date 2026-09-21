@@ -141,11 +141,11 @@ export function CheckoutPage({
       </header>
 
       <main className="mx-auto max-w-[600px] px-3 py-3">
-        {/* Banner promocional Dia dos Pais */}
+        {/* Banner promocional Mega Promo de Setembro */}
         <section className="overflow-hidden rounded-lg shadow-sm">
           <img
             src="/banner-dia-dos-pais.png"
-            alt="8.8 Do dia dos pais - Aproveite a oferta, até 85% OFF. Compra segura, devolução garantida e entrega rápida."
+            alt="Mega Promo de Setembro - Aproveite a oferta, até 85% OFF. Compra segura, devolução garantida e entrega rápida."
             className="w-full object-cover"
           />
         </section>
