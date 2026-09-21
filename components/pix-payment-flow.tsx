@@ -381,11 +381,13 @@ export function PixPaymentFlow({
   productName,
   onBack,
   customer,
+  afterPaidHref = "/upsell",
 }: {
   amount: number
   productName: string
   onBack: () => void
   customer?: Customer
+  afterPaidHref?: string
 }) {
   const [step, setStep] = useState<"form" | "processing" | "pix" | "error">(
     customer ? "processing" : "form",
@@ -489,7 +491,7 @@ export function PixPaymentFlow({
         amount={amount}
         approved={approved}
         onAlreadyPaid={() => {
-          window.location.href = "/upsell"
+          window.location.href = afterPaidHref
         }}
       />
     )

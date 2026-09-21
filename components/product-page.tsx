@@ -397,6 +397,13 @@ export function ProductPage() {
           onEditAddress={() => setAddressOpen(true)}
           onPay={(c) => {
             setCustomer(c);
+            // Persiste os dados do cliente para reuso na etapa de upsell
+            // (navegação de página inteira até /upsell).
+            try {
+              sessionStorage.setItem("upsell:customer", JSON.stringify(c));
+            } catch {
+              /* ambiente sem sessionStorage — ignora */
+            }
             window.scrollTo({ top: 0 });
             setView("payment");
           }}
