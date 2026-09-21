@@ -147,13 +147,13 @@ export function UpsellPage() {
           </span>
         </div>
 
-        {/* Banner — mesmo tratamento do banner do checkout */}
-        <section className="mt-3 overflow-hidden rounded-lg shadow-sm">
-          <img
-            src="/banner-upsell.png"
-            alt="Oferta 8.8 Dia dos Pais: seu pedido desbloqueou mais 1 ampola por apenas R$47,90"
-            className="w-full object-cover"
-          />
+          {/* Banner — sem bordas */}
+          <section className="mt-3 overflow-hidden">
+            <img
+              src="/banner-upsell.png"
+              alt="Mega Promoção de Setembro: seu pedido desbloqueou mais 1 ampola por apenas R$47,90"
+              className="w-full object-cover"
+            />
         </section>
 
         {/* Card da oferta */}
