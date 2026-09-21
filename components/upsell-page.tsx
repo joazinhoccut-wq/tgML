@@ -139,8 +139,8 @@ export function UpsellPage() {
   }
 
   function handleDecline() {
-    // TODO: conectar à página de conclusão do pedido atual.
-    router.push("/")
+    // Já pagou o pedido principal — segue direto para o rastreio.
+    router.push("/rastreio")
   }
 
   if (view === "payment") {
@@ -150,7 +150,7 @@ export function UpsellPage() {
         productName={UPSELL_PRODUCT}
         customer={customer}
         onBack={() => setView("offer")}
-        afterPaidHref="/"
+        afterPaidHref="/rastreio?add=upsell"
       />
     )
   }

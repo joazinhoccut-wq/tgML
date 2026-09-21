@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CheckoutPage, PreparingScreen } from "./checkout-page";
-import { PixPaymentFlow } from "./pix-payment-flow";
+  import { CheckoutPage, PreparingScreen } from "./checkout-page";
+  import { PixPaymentFlow } from "./pix-payment-flow";
+  import { ensureOrder } from "@/lib/order";
 import {
   Search,
   MapPin,
@@ -404,6 +405,11 @@ export function ProductPage() {
             } catch {
               /* ambiente sem sessionStorage — ignora */
             }
+            // Registra o pedido principal para o portal de rastreio.
+            ensureOrder({
+              name: `Tirzepatida T.G. 15mg — ${combo.label}`,
+              value: combo.price,
+            });
             window.scrollTo({ top: 0 });
             setView("payment");
           }}
