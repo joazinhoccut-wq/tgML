@@ -4,9 +4,6 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Check, BadgePercent, Zap, X, Truck } from "lucide-react"
 
-/* Paleta da identidade Mercado Livre usada no funil */
-const ML_NAVY = "#2d3277"
-
 type SavedAddress = {
   logradouro: string
   numero: string
@@ -31,14 +28,6 @@ function formatAddress(a: NonNullable<SavedAddress>) {
   const compl = a.complemento ? ` - ${a.complemento}` : ""
   const linha2 = [a.bairro, `${a.cidade}/${a.uf}`].filter(Boolean).join(" · ")
   return { linha1: `${linha1}${compl}`, linha2 }
-}
-
-/** Animação de entrada com atraso escalonado. */
-function reveal(delay: number) {
-  return {
-    className: "animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out",
-    style: { animationDelay: `${delay}ms`, animationFillMode: "both" as const },
-  }
 }
 
 /* -------------------- Notificação estilo Mercado Livre -------------------- */
@@ -130,7 +119,7 @@ export function UpsellPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#ebebeb] text-[#333]">
+    <div className="min-h-screen bg-[#ebebeb] pb-28 text-[#333]">
       {showNotif ? (
         <OrderNotification
           address={address}
@@ -138,19 +127,28 @@ export function UpsellPage() {
         />
       ) : null}
 
-      {/* Barra superior fina de confirmação */}
-      <div className="w-full bg-[#00a650]">
-        <div className="mx-auto flex max-w-[600px] items-center justify-center gap-1.5 px-4 py-1.5">
-          <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
-          <span className="text-xs font-semibold uppercase tracking-wide text-white">
+      {/* Header amarelo — mesma identidade do checkout */}
+      <header className="sticky top-0 z-10 bg-[#ffe600]">
+        <div className="mx-auto flex max-w-[600px] items-center gap-3 px-4 py-4">
+          <h1 className="text-xl font-semibold text-[#111]">
+            Oferta exclusiva do seu pedido
+          </h1>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-[600px] px-3 py-3">
+        {/* Confirmação discreta */}
+        <div className="flex items-center gap-2 rounded-lg bg-[#e8f8ee] px-4 py-2.5">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#00a650]">
+            <Check className="h-3 w-3 text-white" strokeWidth={4} />
+          </span>
+          <span className="text-sm font-medium text-[#00733e]">
             Seu pedido foi separado com sucesso!
           </span>
         </div>
-      </div>
 
-      <main className="mx-auto max-w-[600px] px-3 pb-16 pt-3">
-        {/* BANNER — elemento principal (mesmo tratamento do banner do checkout) */}
-        <section {...reveal(0)} className="overflow-hidden rounded-lg shadow-sm">
+        {/* Banner — mesmo tratamento do banner do checkout */}
+        <section className="mt-3 overflow-hidden rounded-lg shadow-sm">
           <img
             src="/banner-upsell.png"
             alt="Oferta 8.8 Dia dos Pais: seu pedido desbloqueou mais 1 ampola por apenas R$47,90"
@@ -158,92 +156,90 @@ export function UpsellPage() {
           />
         </section>
 
-        {/* HEADLINE + SUBTÍTULO */}
-        <section {...reveal(120)} className="mt-6 text-center">
-          <h1
-            className="text-balance text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl"
-            style={{ color: ML_NAVY }}
-          >
-            Adicione mais 1 ampola ao seu pedido por apenas{" "}
-            <span className="whitespace-nowrap">R$47,90</span>
-          </h1>
-          <p className="mx-auto mt-2 max-w-md text-pretty text-sm leading-relaxed text-[#555] sm:text-base">
+        {/* Card da oferta */}
+        <section className="mt-3 rounded-lg bg-white p-4 shadow-sm">
+          <h2 className="text-lg font-semibold text-[#333]">
+            Adicione mais 1 ampola ao seu pedido
+          </h2>
+          <p className="mt-1 text-sm leading-relaxed text-[#666]">
             Aproveite o mesmo frete e aumente seu tratamento por um valor
-            exclusivo.
+            exclusivo, disponível apenas nesta etapa.
+          </p>
+
+          <ul className="mt-4 space-y-3 border-t border-[#e0e0e0] pt-4">
+            <li className="flex items-center gap-2.5 text-sm text-[#333]">
+              <Truck className="h-4 w-4 shrink-0 text-[#3483fa]" />
+              Mesmo envio, sem custo adicional de frete
+            </li>
+            <li className="flex items-center gap-2.5 text-sm text-[#333]">
+              <BadgePercent className="h-4 w-4 shrink-0 text-[#3483fa]" />
+              Preço exclusivo desta oferta
+            </li>
+            <li className="flex items-center gap-2.5 text-sm text-[#333]">
+              <Zap className="h-4 w-4 shrink-0 text-[#3483fa]" />
+              Sem novo cadastro nem nova cobrança de envio
+            </li>
+          </ul>
+        </section>
+
+        {/* Resumo do adicional — espelha o resumo da compra */}
+        <section className="mt-3 rounded-lg bg-white p-4 shadow-sm">
+          <h2 className="text-lg font-semibold text-[#333]">
+            Resumo do adicional
+          </h2>
+          <dl className="mt-3 space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <dt className="text-[#333]">+1 ampola Tirzepatida T.G.</dt>
+              <dd className="text-[#333]">R$ 47,90</dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className="text-[#333]">Frete adicional</dt>
+              <dd className="font-semibold text-[#00a650]">Grátis</dd>
+            </div>
+          </dl>
+          <div className="mt-3 flex items-end justify-between border-t border-[#e0e0e0] pt-3">
+            <span className="text-lg font-semibold text-[#333]">
+              Total do adicional
+            </span>
+            <span className="text-xl font-bold text-[#333]">R$ 47,90</span>
+          </div>
+          <p className="mt-1 text-right text-xs text-[#00a650]">
+            Incluído no mesmo pedido, sem novo frete
           </p>
         </section>
 
-        {/* BENEFÍCIOS DISCRETOS */}
-        <section {...reveal(200)} className="mt-5 grid grid-cols-3 gap-2">
-          {[
-            { icon: Truck, label: "Mesmo envio" },
-            { icon: BadgePercent, label: "Preço exclusivo" },
-            { icon: Zap, label: "Sem novo cadastro" },
-          ].map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center gap-2 rounded-xl border border-[#e6e6e6] bg-white px-2 py-4 text-center"
-            >
-              <span
-                className="flex h-10 w-10 items-center justify-center rounded-full"
-                style={{ backgroundColor: "#fff3b0" }}
-              >
-                <Icon
-                  className="h-5 w-5"
-                  strokeWidth={2.2}
-                  style={{ color: ML_NAVY }}
-                />
-              </span>
-              <span
-                className="text-[11px] font-semibold leading-tight sm:text-xs"
-                style={{ color: ML_NAVY }}
-              >
-                {label}
-              </span>
-            </div>
-          ))}
-        </section>
+        {/* Recusar — discreto */}
+        <button
+          type="button"
+          onClick={handleDecline}
+          className="mx-auto mt-5 block text-sm text-[#3483fa] underline-offset-4 transition-colors hover:underline"
+        >
+          Não, continuar apenas com meu pedido atual
+        </button>
 
-        {/* BOTÃO PRINCIPAL (azul de ação, mesmo do checkout) */}
-        <section {...reveal(300)} className="mt-6">
+        {/* Rodapé */}
+        <p className="mx-auto mt-6 max-w-sm text-pretty text-center text-xs leading-relaxed text-[#999]">
+          Oferta exclusiva desta etapa da compra. Ao sair desta página ela não
+          poderá ser recuperada.
+        </p>
+      </main>
+
+      {/* Barra fixa inferior — mesma da oferta principal */}
+      <div className="fixed inset-x-0 bottom-0 z-10 border-t border-[#e0e0e0] bg-white">
+        <div className="mx-auto flex max-w-[600px] items-center justify-between gap-3 px-4 py-3">
+          <div className="leading-tight">
+            <div className="text-xl font-bold text-[#333]">R$ 47,90</div>
+            <div className="text-xs text-[#666]">+1 ampola no mesmo pedido</div>
+          </div>
           <button
             type="button"
             onClick={handleAccept}
-            className="animate-cta-pulse w-full rounded-2xl bg-[#3483fa] px-6 py-5 text-center text-white transition-colors hover:bg-[#2968c8] active:bg-[#2968c8]"
+            className="shrink-0 rounded-md bg-[#3483fa] px-8 py-3 text-sm font-semibold text-white hover:bg-[#2968c8]"
           >
-            <span className="flex items-center justify-center gap-2 text-lg font-extrabold uppercase tracking-tight sm:text-xl">
-              <Check className="h-6 w-6" strokeWidth={3} />
-              Sim! Quero adicionar +1 ampola
-            </span>
-            <span className="mt-1 block text-2xl font-extrabold sm:text-3xl">
-              por R$47,90
-            </span>
+            Adicionar ao pedido
           </button>
-          <p className="mt-2 text-center text-xs text-[#777]">
-            Pagamento será incluído no mesmo pedido.
-          </p>
-
-          {/* BOTÃO SECUNDÁRIO DISCRETO */}
-          <button
-            type="button"
-            onClick={handleDecline}
-            className="mx-auto mt-5 block text-sm text-[#999] underline-offset-4 transition-colors hover:text-[#666] hover:underline"
-          >
-            Não, desejo continuar apenas com meu pedido atual.
-          </button>
-        </section>
-
-        {/* RODAPÉ */}
-        <section
-          {...reveal(380)}
-          className="mt-10 border-t border-[#dcdcdc] pt-5 text-center"
-        >
-          <p className="mx-auto max-w-sm text-pretty text-xs leading-relaxed text-[#999]">
-            Oferta exclusiva desta etapa da compra. Ao sair desta página ela não
-            poderá ser recuperada.
-          </p>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   )
 }
