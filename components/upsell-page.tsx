@@ -3,6 +3,26 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Check, BadgePercent, Zap, X, Truck } from "lucide-react"
+import { PixPaymentFlow } from "./pix-payment-flow"
+
+const UPSELL_AMOUNT = 47.9
+const UPSELL_PRODUCT = "+1 ampola Tirzepatida T.G. 15mg"
+
+type Customer = {
+  name: string
+  email: string
+  document: string
+  phone: string
+}
+
+function readCustomer(): Customer | undefined {
+  try {
+    const raw = sessionStorage.getItem("upsell:customer")
+    return raw ? (JSON.parse(raw) as Customer) : undefined
+  } catch {
+    return undefined
+  }
+}
 
 type SavedAddress = {
   logradouro: string
@@ -97,6 +117,8 @@ export function UpsellPage() {
   const router = useRouter()
   const [address, setAddress] = useState<SavedAddress>(null)
   const [showNotif, setShowNotif] = useState(false)
+  const [view, setView] = useState<"offer" | "payment">("offer")
+  const [customer, setCustomer] = useState<Customer | undefined>(undefined)
 
   useEffect(() => {
     setAddress(readAddress())
@@ -109,13 +131,28 @@ export function UpsellPage() {
   }, [])
 
   function handleAccept() {
-    // TODO: conectar ao fluxo real de cobrança one-click do upsell (R$47,90).
-    router.push("/")
+    // Reusa os dados já informados no checkout para gerar o Pix da oferta
+    // adicional, seguindo o mesmo fluxo de pagamento do front.
+    setCustomer(readCustomer())
+    window.scrollTo({ top: 0 })
+    setView("payment")
   }
 
   function handleDecline() {
     // TODO: conectar à página de conclusão do pedido atual.
     router.push("/")
+  }
+
+  if (view === "payment") {
+    return (
+      <PixPaymentFlow
+        amount={UPSELL_AMOUNT}
+        productName={UPSELL_PRODUCT}
+        customer={customer}
+        onBack={() => setView("offer")}
+        afterPaidHref="/"
+      />
+    )
   }
 
   return (
