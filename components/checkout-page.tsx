@@ -105,6 +105,8 @@ export function CheckoutPage({
 
   function handlePay() {
     const next: Record<string, string> = {};
+    if (!savedAddress)
+      next.address = "Informe seu endereço de entrega para continuar.";
     if (name.trim().split(" ").filter(Boolean).length < 2)
       next.name = "Informe seu nome completo.";
     if (document.replace(/\D/g, "").length !== 11) next.document = "CPF inválido.";
@@ -112,6 +114,10 @@ export function CheckoutPage({
     if (phone.replace(/\D/g, "").length < 10) next.phone = "Telefone inválido.";
     setErrors(next);
     if (Object.keys(next).length > 0) {
+      if (next.address) {
+        onEditAddress();
+        return;
+      }
       const firstError = window.document.querySelector(
         "[data-checkout-error='true']",
       );
@@ -174,7 +180,14 @@ export function CheckoutPage({
           <button
             type="button"
             onClick={onEditAddress}
-            className="mt-3 flex w-full items-start gap-2 rounded-lg border border-[#3483fa] px-4 py-3 text-left"
+            data-checkout-error={
+              errors.address && !savedAddress ? "true" : undefined
+            }
+            className={`mt-3 flex w-full items-start gap-2 rounded-lg border px-4 py-3 text-left ${
+              errors.address && !savedAddress
+                ? "border-[#e6394a]"
+                : "border-[#3483fa]"
+            }`}
           >
             <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#3483fa]" />
             <div className="min-w-0">
@@ -207,6 +220,9 @@ export function CheckoutPage({
               )}
             </div>
           </button>
+          {errors.address && !savedAddress ? (
+            <p className="mt-1 text-xs text-[#e6394a]">{errors.address}</p>
+          ) : null}
 
           {/* Envio Full */}
           <div className="mt-4">
