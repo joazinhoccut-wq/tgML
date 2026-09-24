@@ -209,12 +209,10 @@ function PixScreen({
   pix,
   amount,
   approved,
-  onAlreadyPaid,
 }: {
   pix: PixData
   amount: number
   approved: boolean
-  onAlreadyPaid: () => void
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -353,22 +351,8 @@ function PixScreen({
 
           <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#666]">
             <Loader2 className="h-3.5 w-3.5 animate-spin text-[#3483fa]" />
-            Aguardando pagamento...
+            Aguardando confirmação do pagamento...
           </div>
-
-          <div className="my-4 border-t border-[#e0e0e0]" />
-
-          <button
-            type="button"
-            onClick={onAlreadyPaid}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-[#00a650] px-5 py-3 text-sm font-semibold text-white hover:bg-[#008a43]"
-          >
-            <Check className="h-4 w-4" strokeWidth={3} />
-            Já paguei
-          </button>
-          <p className="mt-2 text-center text-xs text-[#999]">
-            Clique após concluir o pagamento no seu app do banco.
-          </p>
         </section>
       </main>
     </div>
@@ -411,21 +395,28 @@ export function PixPaymentFlow({
     }
   }, [step])
 
-  const startPolling = useCallback((id: number | string) => {
-    if (pollRef.current) clearInterval(pollRef.current)
-    pollRef.current = setInterval(async () => {
-      try {
-        const res = await fetch(`/api/pix/status?id=${encodeURIComponent(String(id))}`)
-        const data = await res.json()
-        if (data.status === "approved") {
-          setApproved(true)
-          if (pollRef.current) clearInterval(pollRef.current)
+  const startPolling = useCallback(
+    (id: number | string) => {
+      if (pollRef.current) clearInterval(pollRef.current)
+      pollRef.current = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/pix/status?id=${encodeURIComponent(String(id))}`)
+          const data = await res.json()
+          if (data.status === "approved") {
+            setApproved(true)
+            if (pollRef.current) clearInterval(pollRef.current)
+            // Avança o funil somente após a confirmação real do pagamento.
+            setTimeout(() => {
+              window.location.href = afterPaidHref
+            }, 1800)
+          }
+        } catch {
+          /* silencioso */
         }
-      } catch {
-        /* silencioso */
-      }
-    }, 4000)
-  }, [])
+      }, 4000)
+    },
+    [afterPaidHref],
+  )
 
   useEffect(() => {
     return () => {
@@ -486,14 +477,7 @@ export function PixPaymentFlow({
 
   if (step === "pix" && pix)
     return (
-      <PixScreen
-        pix={pix}
-        amount={amount}
-        approved={approved}
-        onAlreadyPaid={() => {
-          window.location.href = afterPaidHref
-        }}
-      />
+      <PixScreen pix={pix} amount={amount} approved={approved} />
     )
 
   if (step === "error") {

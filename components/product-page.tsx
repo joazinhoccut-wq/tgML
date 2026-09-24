@@ -43,9 +43,9 @@ type Combo = {
 };
 
 const combos: Combo[] = [
-  { id: 1, label: "1 Ampola", price: 0.97, original: 397, off: 75, image: "/images/tg-11.png" },
-  { id: 2, label: "2 Ampolas", price: 1.47, original: 797, off: 82, image: "/images/tg-9.png" },
-  { id: 4, label: "4 Ampolas", price: 1.97, original: 1197, off: 84, image: "/images/tg-8.png", best: true },
+    { id: 1, label: "1 Ampola", price: 97, original: 397, off: 75, image: "/images/tg-11.png" },
+    { id: 2, label: "2 Ampolas", price: 147, original: 797, off: 82, image: "/images/tg-9.png" },
+    { id: 4, label: "4 Ampolas", price: 197, original: 1197, off: 84, image: "/images/tg-8.png", best: true },
 ];
 
 function formatBRL(value: number) {
